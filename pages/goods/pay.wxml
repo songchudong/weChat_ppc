@@ -1,0 +1,59 @@
+<!--pages/goods/pay.wxml-->
+
+<navigator class='list'>
+  <view class='list_img'>
+    <image wx:if="{{storeInfo.img_urls[0]}}" mode='aspectFill' src='{{picDomain + storeInfo.img_urls[0]}}'></image>
+  </view>
+  <view class='list_content'>
+    <view class='content_title'>
+      <text>{{storeInfo.discount }}折</text>
+      <text>{{storeInfo.name}}</text>
+    </view>
+
+    <view class='content_text'>
+      <view>
+        <view style='padding-top:10rpx;'>{{storeInfo.remark1}}</view>
+        <view style='padding-top:5rpx;'>{{storeInfo.remark2}}</view>
+        <view style='padding-top:5rpx;'>{{storeInfo.remark3}}</view>
+      </view>
+
+      <view class='content_text_right'>
+        <view>¥ {{storeInfo.cluster_price}}</view>
+        <view>{{storeInfo.cluster_count}}桌成团</view>
+      </view>
+    </view>
+  </view>
+</navigator>
+
+
+
+<view class='list-c'>
+  <view style='border-bottom: 1rpx solid #f6f6f6; padding-bottom:15rpx;'>手机号</view>
+  <view style='font-size:32rpx;'>
+    <view class='add_user'>
+      <input placeholder='请填写手机号' placeholder-style='color:#a0a0a0' type='number' maxlength='11' bindblur='setTelNumber' value='{{telNumber}}'></input>
+    </view>
+  </view>
+
+</view>
+
+<view class='list-c'>
+  <view class='time_view'>
+    <view style="text-align:right">有效期时间 </view>
+    <view style="text-align:right">30 天</view>
+  </view>
+</view>
+
+<view class='list-c'>
+  <view class='amount_view'>
+    <view>实付金额</view>
+    <view style='color:#ff0036;'>¥ {{storeInfo.cluster_price}}</view>
+  </view>
+</view>
+
+
+
+
+<view class='suspend_view'>
+  <view bindtap='pay'>使用微信支付</view>
+</view>

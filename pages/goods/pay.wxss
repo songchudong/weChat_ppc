@@ -1,0 +1,112 @@
+/* pages/goods/pay.wxss */
+@import "/pages/index/index.wxss";
+
+.list-c {
+  margin-top: 15rpx;
+  background-color: #fff;
+  padding: 15rpx 25rpx 15rpx 25rpx;
+  font-size: 35rpx;
+}
+
+.goods {
+  display: flex;
+  flex-direction: row;
+  height: 180rpx;
+}
+
+.goods view:nth-child(1) {
+  margin-top: 10rpx;
+  height: 160rpx;
+  width: 160rpx;
+}
+
+.goods view:nth-child(2) {
+  margin: 2% 5%;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid red; */
+  font-size: 30rpx;
+}
+
+.time_view {
+  height: 50rpx;
+  line-height: 50rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.amount_view {
+  height: 50rpx;
+  line-height: 50rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 底部悬浮框 */
+
+.suspend_view {
+  background-color: #20a53a;
+  height: 110rpx;
+  position: fixed;
+  bottom: 0rpx;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 35rpx;
+}
+
+
+.icon_text{
+  display: inline-block;
+  color: #20a53a;
+}
+.add_user{
+  height: 70rpx;
+  line-height: 70rpx; 
+  display: inline-block;
+  padding-top:35rpx;   
+  vertical-align: middle;
+  
+}
+.add_user icon{
+  /* display: inline; */
+  /* display: none; */
+  width: 25rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  vertical-align: middle;
+  /* height: rpx;  */
+  /* line-height: 25rpx; */
+}
+.add_icon{
+  height: 35rpx;
+  width: 35rpx;
+  position: relative;
+  border-radius: 50%;
+  color: #20a53a;
+  border:1.5rpx solid;
+  display: inline-block;
+  vertical-align: middle;
+  margin:0 30rpx 0 5rpx;
+}
+.add_icon:after{
+  content:'';
+  position: absolute;
+  height: 2.5rpx;
+  width: 28rpx;
+  top: 16.25rpx;
+  left: 3.5rpx;
+  background-color: #20a53a;
+}
+
+.add_icon::before{
+  content:'';
+  position: absolute;
+  height: 2.5rpx;
+  width: 28rpx;
+  top: 16.25rpx;
+  left: 2px;
+  background-color: #20a53a;
+  transform: rotate(90deg)
+}

@@ -1,0 +1,44 @@
+/* pages/goods/spell.wxss */
+@import "/pages/index/index.wxss";
+
+.content {
+  background-color: #fff;
+  text-align: center;
+  margin-top: 15rpx;
+}
+
+.content view {
+  padding-top: 35rpx;
+}
+
+.content .second {
+  color: #a0a0a0;
+  font-size: 30rpx;
+}
+
+.content .third text {
+
+  font-size: 38rpx;
+  border-radius: 10rpx;
+  padding: 8rpx 25rpx;
+  background-color: #606060;
+  color: #fff;
+}
+
+.content .head_img {
+  padding: 35rpx 5rpx;
+  margin-bottom: 5rpx;
+}
+
+.content .head_img image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 100%;
+  margin: 10rpx 20rpx;
+}
+
+/* .spell_sussces {
+  background-color: #fff;
+  text-align: center;
+  margin-top: 15rpx;
+} */

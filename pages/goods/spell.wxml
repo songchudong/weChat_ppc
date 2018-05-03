@@ -1,0 +1,75 @@
+<!--pages/goods/spell.wxml-->
+
+<navigator class='list'>
+  <view class='list_img'>
+    <image wx:if='{{orderInfo.imgUrl}}' mode='aspectFill' src='{{ picDomain+ orderInfo.imgUrl }}'></image>
+  </view>
+  <view class='list_content'>
+    <view class='content_title'>
+      <text>{{orderInfo.discount }}折</text>
+      <text>{{orderInfo.name}}</text>
+    </view>
+
+    <view class='content_text'>
+      <view>
+        <view style='padding-top:10rpx;'>{{orderInfo.remark1}}</view>
+        <view style='padding-top:10rpx;'>{{orderInfo.remark2}}</view>
+        <view style='padding-top:10rpx;'>{{orderInfo.remark3}}</view>
+      </view>
+
+      <view class='content_text_right'>
+        <view>¥ {{orderInfo.clusterPrice}}</view>
+        <view>{{orderInfo.clusterCount}}人成团</view>
+      </view>
+    </view>
+  </view>
+</navigator>
+
+
+
+<view class='content'>
+  <view wx:if="{{orderInfo.storeOrderState == '0'}}" class=' first'>还差
+    <text style='color:#ff0036'>{{ orderInfo.clusterCount - orderInfo.spellCount}}</text> 人成团
+  </view>
+  <view wx:if="{{orderInfo.storeOrderState == '0'}}" class='second'>分享到群里，可提高拼团成功率哦</view>
+  <view wx:if="{{remaiTime > 0}}" class='third'>
+    还剩：
+    <text>{{hour}}</text> 时
+    <text>{{minute}}</text> 分
+    <text>{{seconds}}</text> 秒
+  </view>
+
+  <view wx:if="{{orderInfo.storeOrderState == '0'}}" style='font-size:30rpx; color:#a0a0a0;'>
+    <text>未成团则所有资金自动原路退回</text>
+  </view>
+
+  <view style='width:90%; margin:auto'>
+    <button wx:if="{{orderInfo.storeOrderState == '1' || orderInfo.overdue}}" style='background-color: #D4D4D4; color:#fff'>已过期</button>
+    <button wx:elif="{{orderInfo.storeOrderState == '2' && orderInfo.isSpell && remaiTime < 0}}" style='background-color: #D4D4D4; color:#fff'>拼团成功，请在7天内使用</button>
+    <button wx:elif="{{orderInfo.storeOrderState == '2' && orderInfo.isSpell }}" style='background-color: #ff0036; color:#fff' open-type="share">拼团成功,再邀请好友助力</button>
+
+    <button wx:elif="{{orderInfo.isSpell}}" style='background-color: #ff0036; color:#fff' open-type="share">邀请好友拼团</button>
+    <button wx:else style='background-color: #ff0036; color:#fff' bindtap='gopay'>我要参团</button>
+  </view>
+
+  <view class='head_img'>
+    <image wx:for="{{ usersInfo }}" wx:key="img" src='{{ item.img_url }}'></image>
+    <!-- <image src='/img/p.png'></image> -->
+  </view>
+</view>
+
+
+
+<view wx:if="{{orderInfo.storeOrderState == '2'}}" class='content' style='margin-bottom:150rpx;'>
+  <view style='padding-bottom:30rpx; font-size:30rpx;'>
+    <text style='font-size:45rpx; color:red;  line-height: 100rpx;'>恭喜你，拼团成功啦！\n</text>
+    <text>就餐提供手机号：{{ SpellInfo.telNumber }}\n</text>
+    <text style='font-size:35rpx; color:red; '>所有签子{{orderInfo.discount }}折+抵扣</text>
+    <text style='font-size:35rpx; color:red; '>{{SpellInfo.deductAmount }}元\n</text>
+    <text>请在30天内使用</text>
+  </view>
+</view>
+
+
+
+<button style='width:90%; margin-left:5%;  position: fixed;  bottom: 30rpx; ' bindtap='goHome'>点击返回首页</button>

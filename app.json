@@ -1,0 +1,35 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/user",
+    "pages/goods/details",
+    "pages/goods/pay",
+    "pages/goods/spell"
+  ],
+  "window": {
+    "backgroundColor": "#FF0036",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FF0036",
+    "navigationBarTitleText": "拼点餐",
+    "navigationBarTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#FF0036",
+    "backgroundColor": "#f7f6fb",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "img/logo/home.png",
+        "selectedIconPath": "img/logo/home@active.png"
+      },
+      {
+        "pagePath": "pages/index/user",
+        "text": "我的",
+        "iconPath": "img/logo/me.png",
+        "selectedIconPath": "img/logo/me@active.png"
+      }
+    ]
+  }
+}

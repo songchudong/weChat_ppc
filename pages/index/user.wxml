@@ -1,0 +1,56 @@
+<!--pages/index/user.wxml-->
+
+
+<view class="head">
+  <view class="head-body">
+    <view class='user_icon'>
+      <image class="userinfo-avatar" src='{{ userInfo.avatarUrl }}'></image>
+    </view>
+  </view>
+  <view class='head-user'>
+    <view class='info'>
+      <text style='color:#fff'>{{ userInfo.bt_username}}</text>
+    </view>
+    <view class='info'>
+      <text style='color:#e0e0e0; '>{{ userInfo.nickName}}</text>
+    </view>
+  </view>
+</view>
+
+
+
+
+
+<navigator class='list' wx:for="{{orderlist}}" wx:key="order_id" url='../goods/spell?orderId={{item.orderId}}'>
+  <view class='list_img'>
+    <image mode='aspectFill' src='{{picDomain+item.imgUrl}}'></image>
+  </view>
+
+  <view class='list_content'>
+    <view class='content_title'>
+      <text>{{ item.discount }}折</text>
+      <text>{{ item.name }}</text>
+    </view>
+
+    <view class='content_text'>
+      <view>
+        <view style='padding-top:10rpx;'>{{item.remark1}}</view>
+        <view style='padding-top:10rpx;'>{{item.remark2}}</view>
+        <view style='padding-top:10rpx;'>{{item.remark3}}</view>
+      </view>
+
+      <view class='content_text_right'>
+        <view>{{item.state}}</view>
+        <view wx:if="{{ item.state== '未使用' }}">已成团</view>
+        <view wx:elif="{{ item.state== '邀请好友' }}">拼团中</view>
+
+        <view wx:else>{{ item.cluster_count}}人成团</view>
+        <!-- 
+        <view>¥ {{ item.cluster_price }}</view>
+        -->
+      </view>
+    </view>
+
+
+  </view>
+</navigator>
