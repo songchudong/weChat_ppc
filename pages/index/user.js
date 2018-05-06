@@ -8,9 +8,10 @@ Page({
   data: {
     userInfo: {},
     orderlist: [],
-    picDomain: null
+    picDomain: null,
+    checked:2,
+    hiddenLoading:true,
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -19,30 +20,27 @@ Page({
       userInfo: app.globalData.userInfo,
       picDomain: app.cdnImg
     })
-
-    
   },
-
   onShow: function(){
-    this.getUserOrderList()
-
+    this.getUserOrderList(this.data.checked);
   },
-
-
-  getUserOrderList: function () {
-    var _this = this
+  // 获取用户订单列表
+  getUserOrderList: function (item) {
+    var _this = this;
     wx.request({
-      url: app.server + '/order/get_user_order_list',
-      header: { 'Session-Id': app.globalData.session_id },
+      url: app.server + '/Order/GetOrderList',
+      data: {
+        userid: app.globalData.uid,
+        status:item
+      },
       method: 'POST',
       success: function (res) {
-        console.log(res)
         if (res.data.data) {
           _this.setData({
-            orderlist: res.data.data
+            orderlist: res.data.data,
+            hiddenLoading: false
           })
         }
-        console.log(res.data.data)
       },
       fail: function (res) { },
       complete: function (res) { 
@@ -52,13 +50,17 @@ Page({
     })
 
   },
+  // 选项卡事件
+  switchType:function(e){
+    this.setData({
+      checked: parseInt(e.target.id),
+      hiddenLoading:true
+    });
+    this.getUserOrderList(parseInt(e.target.id));
 
-
+  },
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    this.getUserOrderList()
+    this.getUserOrderList(this.data.checked);
   }
-
-
-
-})
+});

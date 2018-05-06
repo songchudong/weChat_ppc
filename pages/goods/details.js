@@ -9,12 +9,13 @@ Page({
   data: {
     imgUrl: null,
     picDomain: null,
-    productInfo: {},
+    productInfo:{},
     product_id: null,
     discount_id:null,
+    hiddenLoading: true,
     showModalStatus: false,
-    viewHeight:'200',
-    width:'300'
+    viewHeight:'200'
+    
   },
 
   /**
@@ -43,16 +44,12 @@ Page({
 
   },
 
-  share: function () {
-
-  },
   onShareAppMessage: function () {
-    // console.log('02101')
-    // return {
-    //   title: '微信小程序联盟',
-    //   desc: '最具人气的小程序开发联盟!',
-    //   path: '/page/user?id=123'
-    // }
+    return {
+      title: '拼点餐',
+      desc: '最具人气的小程序开发联盟!',
+      path: '/page/user?id=123'
+    }
   },
   // 获取产品信息
   getProductInfo: function (product_id,discount_id) {
@@ -66,12 +63,15 @@ Page({
       responseType: 'text',
       success: function (res) {
         _this.setData({
+          hiddenLoading:false,
           productInfo: res.data.data
         });
+        console.log(res)
       }
     })
-
   },
+
+  // 图片自动适应
   imageLoad:function(e){
     const imgwidth = e.detail.width,
           imgheight = e.detail.height,
@@ -82,32 +82,27 @@ Page({
         })
   },
   shareFun: function (e) {
+    console.log(e);
     var _this = this
-    var currentStatu = e.currentTarget.dataset.statu;
     // 显示
-    if (currentStatu == "open") {
-
-      wx.request({
-        url: app.server + '/get_qrcode',
-        data: {
-          scene: 'sid=' + this.data.sid,
-          page: 'pages/goods/details'
-        },
-        header: { 'Session-Id': app.globalData.session_id },
-        method: 'POST',
-        success: function (res) {
-          console.log(app.cdnImg + '/' + res.data.data)
-          _this.setData({ imgUrl: app.cdnImg + '/' + res.data.data })
-        }
-      })
-
-
+    if (e.target.dataset.state == 'open') {
+      // wx.request({
+      //   url: app.server + '/get_qrcode',
+      //   data: {
+      //     scene: 'sid=' + this.data.sid,
+      //     page: 'pages/goods/details'
+      //   },
+      //   header: { 'Session-Id': app.globalData.session_id },
+      //   method: 'POST',
+      //   success: function (res) {
+      //     console.log(app.cdnImg + '/' + res.data.data)
+      //     _this.setData({ imgUrl: app.cdnImg + '/' + res.data.data })
+      //   }
+      // })
       this.setData({
         showModalStatus: true
       });
-    }
-    //关闭
-    else {
+    }else {
       this.setData({
         showModalStatus: false
       });
@@ -132,5 +127,4 @@ Page({
       }
     })  
   }
-
 })

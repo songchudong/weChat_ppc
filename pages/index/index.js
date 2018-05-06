@@ -6,6 +6,7 @@ Page({
   data: {
     isFirst: true,
     picDomain: null,
+    hiddenLoading:true,
     userInfo: {},
     storeList: [],
     gdImgUrls: [
@@ -23,7 +24,6 @@ Page({
   },
 
   goAd: function (e) {
-    console.log(e.target.id)
     wx.navigateTo({
       url: '../goods/details',
       success: function (res) { },
@@ -43,21 +43,22 @@ Page({
       dataType: 'json',
       responseType: 'text',
       success: function (res) {
-         console.log(res.data);
         if (res.data.status == 401) {
           if (_this.data.isFirst) {
             // 第一次打开页面 401状态则清除缓存
             console.log('removeLoginCache', app.globalData)
             app.removeLoginCache()
             _this.setData({
-              isFirst: false
-            })
+              isFirst: false,
+              hiddenLoading:false
+            });
           }
           setTimeout(function () { _this.getStoreList() }, 500)
         }
         else {
           _this.setData({
-            productList: res.data.data
+            productList: res.data.data,
+            hiddenLoading:false
           })
         }
       },

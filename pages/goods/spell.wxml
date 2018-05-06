@@ -1,75 +1,81 @@
 <!--pages/goods/spell.wxml-->
-
-<navigator class='list'>
-  <view class='list_img'>
-    <image wx:if='{{orderInfo.imgUrl}}' mode='aspectFill' src='{{ picDomain+ orderInfo.imgUrl }}'></image>
-  </view>
-  <view class='list_content'>
-    <view class='content_title'>
-      <text>{{orderInfo.discount }}折</text>
-      <text>{{orderInfo.name}}</text>
-    </view>
-
-    <view class='content_text'>
-      <view>
-        <view style='padding-top:10rpx;'>{{orderInfo.remark1}}</view>
-        <view style='padding-top:10rpx;'>{{orderInfo.remark2}}</view>
-        <view style='padding-top:10rpx;'>{{orderInfo.remark3}}</view>
+  <block wx:if="{{hiddenLoading}}">
+    <view class='loading_conter'>
+      <view class='loading_load'>
+        <view class='loading_box loading_delay_a'></view>
+        <view class='loading_box loading_delay_b'></view>
+        <view class='loading_box loading_delay_c'></view>
+        <view class='loading_box loading_delay_d'></view>
       </view>
-
-      <view class='content_text_right'>
-        <view>¥ {{orderInfo.clusterPrice}}</view>
-        <view>{{orderInfo.clusterCount}}人成团</view>
-      </view>
+      <text class='loading_txt'>加载中</text>
     </view>
-  </view>
-</navigator>
-
-
-
-<view class='content'>
-  <view wx:if="{{orderInfo.storeOrderState == '0'}}" class=' first'>还差
-    <text style='color:#ff0036'>{{ orderInfo.clusterCount - orderInfo.spellCount}}</text> 人成团
-  </view>
-  <view wx:if="{{orderInfo.storeOrderState == '0'}}" class='second'>分享到群里，可提高拼团成功率哦</view>
-  <view wx:if="{{remaiTime > 0}}" class='third'>
-    还剩：
-    <text>{{hour}}</text> 时
-    <text>{{minute}}</text> 分
-    <text>{{seconds}}</text> 秒
-  </view>
-
-  <view wx:if="{{orderInfo.storeOrderState == '0'}}" style='font-size:30rpx; color:#a0a0a0;'>
-    <text>未成团则所有资金自动原路退回</text>
-  </view>
-
-  <view style='width:90%; margin:auto'>
-    <button wx:if="{{orderInfo.storeOrderState == '1' || orderInfo.overdue}}" style='background-color: #D4D4D4; color:#fff'>已过期</button>
-    <button wx:elif="{{orderInfo.storeOrderState == '2' && orderInfo.isSpell && remaiTime < 0}}" style='background-color: #D4D4D4; color:#fff'>拼团成功，请在7天内使用</button>
-    <button wx:elif="{{orderInfo.storeOrderState == '2' && orderInfo.isSpell }}" style='background-color: #ff0036; color:#fff' open-type="share">拼团成功,再邀请好友助力</button>
-
-    <button wx:elif="{{orderInfo.isSpell}}" style='background-color: #ff0036; color:#fff' open-type="share">邀请好友拼团</button>
-    <button wx:else style='background-color: #ff0036; color:#fff' bindtap='gopay'>我要参团</button>
-  </view>
-
-  <view class='head_img'>
-    <image wx:for="{{ usersInfo }}" wx:key="img" src='{{ item.img_url }}'></image>
-    <!-- <image src='/img/p.png'></image> -->
-  </view>
+  </block>
+  <block wx:else>
+<view class='order_info'>
+    <view class='box_left'>
+      <image class='box_icon' mode='aspectFill' src='{{picDomain+orderInfo.ico}}'></image>
+    </view>
+    <view class ="box_right" style='margin-left:15rpx;'>
+        <view class='title'>
+          <view style='color:#353535;font-size:34rpx;font-weight:600;'>{{ orderInfo.product_name }}</view>
+          <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{orderInfo.remark1}}</view>
+          <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{orderInfo.remark2}}</view>
+          <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="orderInfo.limit == 1">{{orderInfo.shop_name}}</view>
+          <view wx:else>使用地点不限</view>
+        </view>
+        <view class='state_info' wx:if="orderInfo.state == -1">
+          <view class='box_price'>{{'￥'+orderInfo.price}}</view>
+          <!-- <view>{{orderInfo.discount +'折劵'}}</view>  -->
+          <view class='box_ps'>三人团</view>
+        </view>
+    </view>
 </view>
 
 
 
-<view wx:if="{{orderInfo.storeOrderState == '2'}}" class='content' style='margin-bottom:150rpx;'>
-  <view style='padding-bottom:30rpx; font-size:30rpx;'>
-    <text style='font-size:45rpx; color:red;  line-height: 100rpx;'>恭喜你，拼团成功啦！\n</text>
-    <text>就餐提供手机号：{{ SpellInfo.telNumber }}\n</text>
-    <text style='font-size:35rpx; color:red; '>所有签子{{orderInfo.discount }}折+抵扣</text>
-    <text style='font-size:35rpx; color:red; '>{{SpellInfo.deductAmount }}元\n</text>
-    <text>请在30天内使用</text>
+<view class='order_group'>
+  <view class='group_title'>
+    <block wx:if="{{orderInfo.numbers > 0}}">
+      <view class='group_account_title'>还差\n<text>{{orderInfo.numbers}}</text>\n人成团</view>
+      <view class='group_account_one'>分享到群里，可提高拼团成功率哦</view>
+    </block>
+    <block wx:else>
+      <view class='group_account_one'>拼团成功，还可以继续添加团员哦</view>
+    </block>
+
+    <view class='group_time'>
+      还剩：<text>{{hour}}</text> 时<text>{{minute}}</text> 分<text>{{seconds}}</text> 秒
+    </view>
+
+    <view wx:if="{{orderInfo.numbers > 0}}" class='group_account_two'>未拼团成功的成员会全额退款</view>
+    <view class='group_control'>
+      <block wx:if="{{orderInfo.pt_endtime > orderInfo.time}}">
+        <block wx:if="{{user_state}}">
+          <button  class='btn_style' open-type="share">邀请好友拼团</button> 
+        </block>
+        <block wx:else>
+          <button wx:if="{{orderInfo.numbers <= 0}}" class='btn_style' open-type="share">拼团成功,再邀请好友助力</button>  
+        </block>
+      </block>
+      <block wx:else>
+          <button wx:if="{{orderInfo.numbers < 0}}" class='btn_style' open-type="share">拼团失败</button>  
+      </block>
+
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}'></image>
+        </view>
+      </view>
+       <view wx:if="{{orderInfo.numbers <= 0}}" class='content' style='margin-bottom:150rpx;'>
+          <view style='padding-bottom:30rpx; font-size:30rpx;'>
+            <text style='font-size:40rpx; color:red;  line-height: 65rpx;margin-bottom:15rpx;'>恭喜你，拼团成功啦！\n</text>
+            <text style='font-size:30rpx;line-height: 65rpx;margin-bottom:15rpx;'>就餐提供手机号：{{ telNumber }}\n</text>
+            <text style='font-size:35rpx; color:red;line-height: 65rpx;'>{{orderInfo.remark1 }}\r</text>
+            <text style='display:block;'>请在30天内使用</text>
+          </view>
+      </view>
+      <button class='btn-return' bindtap='goHome'>点击返回首页</button>
+    </view>
   </view>
 </view>
-
-
-
-<button style='width:90%; margin-left:5%;  position: fixed;  bottom: 30rpx; ' bindtap='goHome'>点击返回首页</button>
+</block>

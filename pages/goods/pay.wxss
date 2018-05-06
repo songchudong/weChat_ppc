@@ -110,3 +110,106 @@
   background-color: #20a53a;
   transform: rotate(90deg)
 }
+
+
+/* 产品详情 */
+.order_info .box_icon{
+  width: 175rpx;
+  height: 175rpx;
+  border-radius: 4rpx;
+}
+
+.order_info{
+  display: flex;
+  height: 175rpx;
+  margin-bottom: 15rpx;
+  background: #fff;
+  padding: 15rpx;
+}
+
+
+.order_info .box_left{
+  height: 175rpx;
+  widows: 175rpx;
+  display: flex; 
+  justify-content:flex-start; 
+  
+}
+.order_info .box_right{
+  display: flex;
+}
+.order_info .state_info{
+  margin-left: 30rpx;
+  padding-top: 15rpx;
+}
+
+
+.order_info .state_info view:nth-child(1){
+  font-size: 35rpx;
+  color: #ff0036;
+  margin-top: 35rpx;
+}
+.order_info .state_info view:nth-child(2){
+  font-size: 25rpx;
+  text-align: center;
+  color: #888;
+  margin-top: 10rpx;
+}
+
+
+
+
+/* 遮罩层 */
+
+.loading_conter{
+  position: fixed;
+  top: 50%;
+  left:50%;
+  height: 110rpx;
+  widows: 110rpx;
+  margin-top: -110rpx;
+  margin-left: -55rpx;
+}
+
+.loading_load{
+  width: 110rpx;
+  height: 110rpx;
+}
+
+.loading_box{
+	display:inline-block;
+	width:50rpx;
+	height:50rpx;
+  margin-right: 10rpx;
+	background:#ff0036;
+	animation:k-loading 2.8s infinite;
+	opacity:0;
+}
+
+
+.loading_box:nth-child(even){
+  margin-right: 0;
+}
+
+.loading_txt{
+  width: 110rpx;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+  text-align: center;
+  display: inline-block;
+  color: #888;
+}
+
+.loading_delay_a{animation-delay: 0s;}
+.loading_delay_b{animation-delay: .7s;}
+.loading_delay_c{animation-delay: 2.1s;}
+.loading_delay_d{animation-delay: 1.4s;}
+
+
+@keyframes k-loading {
+	0% {opacity:.5;background:#000}
+  30% {opacity:.5;background:#666;}
+  60% {opacity:0}
+  75% {opacity:0}
+  100% {opacity:.5;background:#000;}
+}

@@ -42,3 +42,117 @@
   text-align: center;
   margin-top: 15rpx;
 } */
+
+
+
+
+.order_info .box_icon{
+  width: 175rpx;
+  height: 175rpx;
+  border-radius: 4rpx;
+}
+
+.order_info{
+  display: flex;
+  height: 175rpx;
+  margin-bottom: 15rpx;
+  background: #fff;
+  padding: 15rpx;
+}
+
+
+.order_info .box_left{
+  height: 175rpx;
+  widows: 175rpx;
+  display: flex; 
+  justify-content:flex-start; 
+  
+}
+.order_info .box_right{
+  display: flex;
+}
+.order_info .state_info{
+  margin-left: 30rpx;
+  padding-top: 15rpx;
+  text-align: right;
+}
+
+
+.order_info .state_info view:nth-child(1){
+  font-size: 38rpx;
+  color: #ff0036;
+  margin-top: 32rpx;
+}
+.order_info .state_info view:nth-child(2){
+  font-size: 25rpx;
+  text-align: center;
+  color: #888;
+  margin-top: 10rpx;
+}
+
+
+/* 拼团模块 */
+.order_group{
+  margin-top: 15rpx;
+  background-color:#fff;
+  padding: 25rpx; 
+}
+
+.group_title{
+  margin-bottom: 15rpx;
+}
+.group_title .group_account_title{
+  text-align: center;
+  font-size: 32rpx;
+  margin-bottom: 15rpx;
+}
+.group_title .group_account_title text{
+  color: #ff0036;
+}
+.group_title .group_account_one,
+.group_title .group_account_two{
+  text-align: center;
+  font-size: 29rpx;
+  color: #888;
+  margin: 25rpx 0;
+}
+.group_title .group_time{
+  text-align: center;
+}
+.group_title .group_time text{
+  padding: 5rpx 15rpx;
+  display: inline-block;
+  background-color: #606060;
+  color: #fff;
+  border-radius: 8rpx;
+}
+.group_control .btn_style{
+  background-color: #ff0036;
+  color:#fff;
+  margin: 20rpx 0;
+}
+.user_info_list{
+  min-height: 125rpx;
+  padding: 25rpx;
+  display: flex;
+  justify-content:center;
+}
+.user_info_list .userinfo_item{
+  height: 120rpx;
+  width: 120rpx;
+  margin: 0 25rpx;
+}
+.user_info_list .userinfo_item image{
+  height: 120rpx;
+  width: 120rpx;
+  border-radius: 50%;
+
+}
+
+.btn-return{
+  width:90%; 
+  position: fixed;
+  left: 50%;
+  margin-left: -45%;
+  bottom: 30rpx;
+}

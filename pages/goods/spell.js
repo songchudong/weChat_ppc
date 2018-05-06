@@ -14,106 +14,94 @@ Page({
     picDomain: null,
     isRemoveLoginCache: true,
     remaiTime: null,
-    SpellInfo:null
-
+    SpellInfo:null,
+    user_state: true,
+    options:null,
+    hiddenLoading:true,
+    telNumber:app.globalData.userInfo.telNumber
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getSussceSpellInfo(options.orderId)
+    console.log(options);
+    // this.getSussceSpellInfo(options.order_id)
     this.setData({
-      picDomain: app.cdnImg
+      picDomain: app.cdnImg,
+      options:options.order_id
     })
-    this.getUserOrderInfo(options.orderId)
+    this.getUserOrderInfo(options.order_id)
 
   },
-
-
-  calculRemaiTime: function (remaiTime) {
-    console.log('remaiTime', remaiTime)
-    var hour = 0
-    var minute = 0
-    var seconds = 0
-    var _this = this
+  // 倒计时
+  calculRemaiTime: function (remaiTime,presentTime) {
+    var _this = this, hour,minute,seconds;
+    remaiTime = remaiTime - presentTime;
     setInterval(function () {
-      remaiTime -= 0.1
-      hour = parseInt(remaiTime / 3600)
-      minute = parseInt((remaiTime % 3600) / 60)
-      seconds = (remaiTime % 60).toFixed(1)
+      remaiTime -= 0.1;
+      hour = parseInt(remaiTime / 3600);
+      minute = parseInt((remaiTime % 3600) / 60);
+      seconds = (remaiTime % 60).toFixed(1);
       _this.setData({
-        hour: hour,
-        minute: minute,
+        hour: hour<9?('0'+ hour):hour,
+        minute: minute < 9 ? ('0' + minute):minute,
         seconds: seconds
-      })
-    }, 100)
+      });
+      if (remaiTime < 0){
+        _this.getUserOrderInfo(_this.data.order_id);
+      }
+    }, 100);
   },
-
-  getUserOrderInfo: function (orderId) {
-    var _this = this
+  // 获取用户订单详情
+  getUserOrderInfo: function (order_id) {
+    var _this = this;
     wx.request({
-      url: app.server + '/order/get_user_order_info',
-      data: { orderId: orderId },
-      header: { 'Session-Id': app.globalData.session_id },
+      url: app.server + '/Order/GetOrderInfo',
+      data: { order_id: parseInt(order_id) },
       method: 'POST',
       success: function (res) {
-        if (res.data.status == 200) {
-          _this.setData({
-            orderInfo: res.data.data.order_info,
-            usersInfo: res.data.data.users_info,
-            remaiTime: res.data.data.order_info.remaiTime
-          })
-          _this.calculRemaiTime(res.data.data.order_info.remaiTime)
-        } else if(res.data.status == 404) {
-          app.showErrorModal('商品不存在')
-        }
-        else {
-          if (_this.data.isRemoveLoginCache) {
-            // 第一次打开页面 401状态则清除缓存
-            console.log('removeLoginCache', app.globalData)
-            app.removeLoginCache()
-            _this.setData({
-              isRemoveLoginCache: false
-            })
-          }
-          setTimeout(function () {
-            if (!app.globalData.userInfo.nickName) {
-              app.getUserInfo()
+        if (res.statusCode == 200){
+          if (res.data.data.detail.length >1){
+            for (var i = 1; i < res.data.data.detail; i++) {
+              if (i.id == app.globalData.uid) {
+                _this.setData({
+                  user_state: false
+                });
+              }
             }
-            _this.getUserOrderInfo(orderId)
-          }, 500)
-
+          }
+          _this.setData({
+            hiddenLoading:false,
+            orderInfo:{
+              id: res.data.data.id,
+              ico: res.data.data.ico,
+              discount: res.data.data.discount,
+              price: res.data.data.price,
+              product_name: res.data.data.product_name,
+              remark1: res.data.data.remark1,
+              remark2: res.data.data.remark2,
+              shop_name: res.data.data.shop_name,
+              limit: res.data.data.limit,
+              numbers: (3 - res.data.data.detail.length),
+              pt_endtime: res.data.data.pt_endtime,
+              time:res.data.data.time,
+              orderUser: res.data.data.user_id,
+              loginUser: app.globalData.uid
+            },
+            usersInfo: res.data.data.detail
+          });
+          _this.calculRemaiTime(res.data.data.pt_endtime,res.data.data.time);
+        }else{
+          app.removeLoginCache();
         }
-      },
-      fail: function (res) { },
-      complete: function (res) { },
-    })
-  },
-
-  // 拼单成功，获取用户优惠
-  getSussceSpellInfo: function (orderId) {
-    console.log('strore_orderId', orderId)
-    var _this = this
-    wx.request({
-      url: app.server + '/order/get_sussce_spell_info',
-      method: 'POST',
-      data: { orderId: orderId },
-      header: { 'Session-Id': app.globalData.session_id },
-      success: function (res) {
-        console.log('get_sussce_spell_info', res.data.data)
-        _this.setData({
-          SpellInfo: res.data.data
-        })
-
       }
     })
   },
-
+  // 参团
 
   gopay: function () {
-
-    var url = 'pay?orderId=' + this.data.orderInfo.orderId + '&sid=' + this.data.orderInfo.storeId
+    var url = 'pay?order_id=' + this.data.orderInfo.id;
     wx.navigateTo({
       url: url,
       success: function (res) { },
@@ -127,6 +115,4 @@ Page({
       url: '/pages/index/index',
     })
   }
-
-
 })

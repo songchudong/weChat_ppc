@@ -1,77 +1,76 @@
 //app.js
+
 App({
+  // 生命周期_小程序加载初始化
   onLaunch: function () {
-    // 展示本地存储能力
-    this.globalData.session_id = wx.getStorageSync('session_id')
+    // 展示本地存储
+    this.globalData.uid = wx.getStorageSync('uid')
     this.globalData.userInfo = wx.getStorageSync('userInfo')
-    if (!this.globalData.session_id || !this.globalData.userInfo) {
-      console.log("登录")
-      // 登录
-      this.getLogin()
+    if (!this.globalData.uid || !this.globalData.userInfo) {
+      this.getLogin();
     }
   },
-  //清除登录缓存
+  //清除登录状态
   removeLoginCache: function () {
-    wx.removeStorageSync('session_id')
-    this.globalData.session_id = ''
-    // 重新登录
-    console.log("重新登录")
-    this.getLogin()
+    wx.removeStorageSync('uid')
+    this.globalData.uid = '';
+    this.getLogin();
   },
-
+  // 授权微信登录
   getLogin: function () {
     wx.login({
       success: res => {
         if (res.code) {
           var _this = this;
           wx.request({
-            url: this.server + "/login_by_wechat?code=" + res.code,
+            url: this.server + "Users/GetWxLogin?code=" + res.code,
             success: function (res) {
-              _this.globalData.session_id = res.data.data.session_id
-              wx.setStorageSync('session_id', res.data.data.session_id)
-              if (!res.data.data.user_info || !res.data.data.user_info.avatarUrl) {
-                _this.getUserInfo()
-              } else {
-                _this.globalData.userInfo = res.data.data.user_info
-                wx.setStorageSync('userInfo', res.data.data.user_info)
+              _this.globalData.uid = res.data.data.id;
+              wx.setStorageSync('uid',res.data.data.id);
+              _this.getUserInfo(res.data.data.id);
+              if (!res.data.data.nickname || !res.data.data.head_img_url) {
+                _this.getUserInfo(res.data.data.id);
+              }else{
+                _this.globalData.userInfo = {
+                  nickname:res.data.data.nicknam,
+                  head_img_url:res.data.data.head_img_url,
+                };
+                wx.setStorageSync('userInfo', _this.globalData.userInfo);
               }
-
             }
           });
         } else {
-          console.log('获取用户登录态失败！' + res.errMsg)
+          console.log('获取用户登录态失败！' + res.errMsg);
         }
       }
-    })
+    });
   },
-
-  getUserInfo: function () {
-    var _this = this
+  // 获取用户信息(uid用户)
+  getUserInfo: function (uid){
+    var _this = this;
     wx.getUserInfo({
       withCredentials: true,
-      success: function (res) {
-        _this.globalData.userInfo = res.userInfo
-        wx.setStorageSync('userInfo', res.userInfo)
-
+      success: function (res){
+        _this.globalData.userInfo = res.userInfo;
+        wx.setStorageSync('userInfo', res.userInfo);
         wx.request({
           method: 'POST',
-          url: _this.server + '/set_user_info',
-          header: { 'Session-Id': _this.globalData.session_id },
+          url: _this.server + 'Users/SetUserInfo',
           data: {
+            uid:uid,
             encryptedData: res.encryptedData,
             iv: res.iv,
             rawData: res.rawData,
             signature: res.signature
           },
-          success: function (res) {
-          }
+          success: function (res) {}
         });
       },
       fail: function (res) { },
       complete: function (res) { },
     })
   },
-
+  // 显示错误模块
   showErrorModal: function (content, title) {
     wx.showModal({
       title: title || '加载失败',
@@ -80,6 +79,8 @@ App({
       showCancel: false
     });
   },
+
+
   // getSetting: function(){
   //   // 获取用户信息
   //   wx.getSetting({
@@ -102,13 +103,11 @@ App({
   //     }
   //   })
   // },
-
-
+  
   server: "https://pdc.muluo.org/api/",
   cdnImg: "https://pdc.muluo.org/static/",
   globalData: {
-    session_id: null,
+    uid: null,
     userInfo: null
   }
-
 })
