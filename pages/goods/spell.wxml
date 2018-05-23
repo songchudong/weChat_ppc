@@ -1,20 +1,31 @@
 <!--pages/goods/spell.wxml-->
-<block wx:if="{{hiddenLoading}}">
-  <view class='loading_conter'>
-    <view class='loading_load'>
-      <view class='loading_box loading_delay_a'></view>
-      <view class='loading_box loading_delay_b'></view>
-      <view class='loading_box loading_delay_c'></view>
-      <view class='loading_box loading_delay_d'></view>
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+<view class="drawer_screen" wx:if="{{showModalStatus}}"> 
+</view>
+<view class='drawer_base64' wx:if="{{showModalStatus}}">
+  <icon type="cancel" size='25' color='#fff' bind:tap='shareFun' data-state="close"></icon>
+  <image style='width:100%' src='{{userImage}}' mode='widthFix'></image>
+</view>
+<view class="drawer_box animated slideInUp" wx:if="{{showModalStatus}}"> 
+    <view class='drawer_content'>
+    <view class='drawer_block'>
+      <button open-type='share'>
+        <image src='/img/icon/wechat.png' mode="aspectFit"/>
+        <text>发送给朋友</text>
+      </button>
     </view>
-    <text class='loading_txt'>加载中</text>
-  </view>
-</block>
-<block wx:else>
+    <view class='drawer_block' bind:tap='saveImg'>
+      <image src='/img/icon/friend.png' class='drawer_block_icon' mode="aspectFit"/>
+      <text>生成分享图片</text>
+    </view>   
+  </view> 
+</view>
+
+
 
 <view class='order_info'>
     <view class='box_left'>
-      <image class='box_icon' mode='aspectFill' src='{{picDomain+orderInfo.ico}}'></image>
+      <image class='box_icon' mode='aspectFill' src='{{picDomain}}'></image>
     </view>
     <view class ="box_right" style='margin-left:15rpx;'>
         <view class='title'>
@@ -26,91 +37,139 @@
         </view>
         <view class='state_info' wx:if="orderInfo.state == -1">
           <view class='box_price'>{{'￥'+orderInfo.price}}</view>
-          <!-- <view>{{orderInfo.discount +'折劵'}}</view>  -->
-          <view class='box_ps'>三人团</view>
+          <view class='box_ps'>{{orderInfo.cluster_count + orderInfo.unit +'成团'}}</view>
         </view>
     </view>
 </view>
-
-
-
 <view class='order_group'>
-  <view class='group_title'>
-    <block wx:if="{{orderState}}"> 
-      <block wx:if="{{orderInfo.numbers > 0}}">
-        <view class='group_account_title'>还差\n<text>{{orderInfo.numbers}}</text>\n人成团</view>
-        <view class='group_account_one'>分享到群里，可提高拼团成功率哦</view>
-      </block>
-
-      <block wx:else>
-        <view wx:if="{{orderInfo.pt_endtime > orderInfo.time}}" class='group_account_one'>拼团成功，还可以继续添加团员哦</view>
-      </block>
-
-      <view wx:if="{{orderInfo.pt_endtime > orderInfo.time}}" class='group_time'>
-        还剩：<text>{{hour}}</text> 时 <text>{{minute}}</text> 分 <text>{{seconds}}</text> 秒
-      </view>
-
-      <view wx:if="{{orderInfo.numbers > 0}}" class='group_account_two'>未拼团成功的成员会全额退款</view>
-
-      <view class='group_control'>
-        <!-- 判断过期时间 -->
-        <block wx:if="{{orderInfo.pt_endtime > orderInfo.time}}">
-          <!-- 判断用户状态，是否为当前订单用户 -->
-          <block wx:if="{{user_state}}">
-            <!-- 判断是否成团 -->
-            <button wx:if="{{orderInfo.numbers > 0}}" class='btn_style' open-type="share">邀请好友拼团</button>
-            <button wx:else class='btn_style' open-type="share">拼团成功,再邀请好友助力</button>  
-          </block>
-          <block wx:else>
-            <button class='btn_style' bindtap='gopay'>我要参团</button>
-          </block>
-          
-        </block>
-        <block wx:else>
-            <button wx:if="{{orderInfo.numbers < 0 }}" class='btn_style' open-type="share">拼团失败</button>
-        </block>
-        <!-- 参团成员 -->
-        <view class='user_info_list'>
-          <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
-            <image mode='aspectFill' src='{{ item.head_img_url }}' />
-          </view>
-        </view>
-
-        <!-- 判断是否显示成团消息 -->
-        <view wx:if="{{orderInfo.numbers <= 0}}" class='user_order_content'>
-          <view class='user_order_group'>
-            <text>恭喜您，拼团成功啦！\n</text>
-            <text>就餐前请提供手机号：{{ telNumber }}\n</text>
-            <text>{{orderInfo.remark1}}\r</text>
-            <text>有效期至{{endtime}}</text>
-            <button wx:if="{{}}" class='btn_style' disabled='disabled'>订单已过期，请重新拼团</button>  
-          </view>
+  <view class='group_title'> 
+    <!-- 邀请拼团 -->
+    <block wx:if="{{code_state === 0}}">
+      <view class='group_account_title'>还差\n<text>{{orderInfo.numbers}}</text>\n人成团</view>
+      <view class='group_account_one'>分享到群里，可提高拼团成功率哦</view>
+      <view class='group_time'>还剩：<text>{{hour}}</text> 时 <text>{{minute}}</text> 分 <text>{{seconds}}</text> 秒</view>
+      <view class='group_account_two'>未拼团成功的成员会全额退款</view>
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
         </view>
       </view>
+      <button class='btn_style' open-type="share">邀请好友拼团</button>
+    </block>  
+
+    <!-- 我要参团 -->
+    <block wx:elif="{{code_state === 1}}">
+      <view class='group_account_title'>还差\n<text>{{orderInfo.numbers}}</text>\n人成团</view>
+      <view class='group_account_one'>分享到群里，可提高拼团成功率哦</view>
+      <view class='group_time'>还剩：<text>{{hour}}</text> 时 <text>{{minute}}</text> 分 <text>{{seconds}}</text> 秒</view>
+      <view class='group_account_two'>未拼团成功的成员会全额退款</view>
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
+        </view>
+      </view>
+      <button class='btn_style' bindtap='gopay'>我要参团</button>
+    </block> 
+
+    <!-- 拼团完成（显示优惠劵） -->
+    <block wx:elif="{{code_state === 2}}">
+      <view class='group_account_one'>拼团成功，还可以继续添加团员哦</view>
+      <view class='group_time'>还剩：<text>{{hour}}</text> 时 <text>{{minute}}</text> 分 <text>{{seconds}}</text> 秒</view>
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
+        </view>
+      </view>
+      <button class='btn_style' open-type="share">拼团成功,再邀请好友助力</button>  
+      <view class='user_order_content'>
+        <view class='user_order_group'>
+          <text>恭喜您，拼团成功啦！\n</text>
+          <text>就餐前请提供手机号：{{ telNumber }}\n</text>
+          <text>{{orderInfo.remark3}}\r</text>
+          <text>有效期至{{endtime}}</text>
+        </view>
+      </view>
+    </block> 
+
+    <!-- 拼团结束(显示优惠劵) -->
+    <block wx:elif="{{code_state === 3}}">
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
+        </view>
+      </view>
+      <view class='user_order_content'>
+        <view class='user_order_group'>
+          <text>恭喜您，拼团成功啦！\n</text>
+          <text>就餐前请提供手机号：{{ telNumber }}\n</text>
+          <text>{{orderInfo.remark1}}\r</text>
+          <text>有效期至{{endtime}}</text>
+        </view>
+      </view>
+    </block> 
+
+    <!-- 拼团过期(优惠劵过期) -->
+    <block wx:elif="{{code_state === 4}}">
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
+        </view>
+      </view>
+      <view class='user_info_title'>订单已过期，请重新拼团</view>
+    </block> 
+
+    <!-- 拼团过期（拼团失败，返回金额） -->
+    <block wx:elif="{{code_state === 5}}">
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
+        </view>
+      </view>
+      <view class='user_info_title'>拼团失败，拼团人数不足{{orderInfo.cluster_count}}人</view>
+      <view class='group_account_one'>支付金额已原路退回，请注意查看。</view>  
+    </block> 
+
+    <!-- 拼团等待开奖 -->
+    <block wx:elif="{{code_state === 6}}">
+      <view class='user_info_title'>每天早上10点开奖，敬请期待</view>
+      <view class='group_time'>倒计时：<text>{{hour}}</text> 时 <text>{{minute}}</text> 分 <text>{{seconds}}</text> 秒</view>
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{ item.head_img_url }}' />
+        </view>
+      </view>
+      <button class='btn_style' disabled='disabled'>等待开奖</button>  
+    </block> 
+
+    <!-- 拼团开奖结束（没中奖，返回金额）-->
+    <block wx:elif="{{code_state === 7}}">
+      <view class='user_info_title'>很遗憾，你没有中奖，支付金额将原路返回</view>
+      <view class='award_list'>
+        <view class='award_title'>本期中奖名单</view>
+        <view class='award_head'><text>用户</text><text>电话</text></view>
+        <view class='award_item' wx:for="{{orderInfo.activity}}" wx:key="{{!this}}"><view><image src='{{item.head_img_url}}'/><text>{{item.nickname}}</text></view><view>{{item.telNumber}}</view></view>
+      </view>
+    </block> 
+
+    <!-- 拼团开奖结束（中奖，优惠劵）-->
+    <block wx:elif="{{code_state === 8}}">
+      <view class='user_order_group'>
+        <text>恭喜您，中奖了！\n</text>
+        <text>就餐前请提供手机号：{{ telNumber }}\n</text>
+        <text>{{orderInfo.remark1}}\n</text>
+        <text>有效期至{{endtime}}</text>
+      </view>
+    </block> 
+    <!-- 拼团优惠使用-->
+    <block wx:elif="{{code_state === 9}}">
+      <view class='user_info_list'>
+        <view class='userinfo_item' wx:for="{{usersInfo }}" wx:key="img">
+          <image mode='aspectFill' src='{{item.head_img_url }}' />
+        </view>
+      </view>
+      <view class='user_info_title'>订单已使用，请重新拼团</view>
     </block>
-    
-    <!-- 已使用 -->
-    <view wx:if="{{userUseState}}">
-      <!-- 参团成员 -->
-      <view class='user_info_list'>
-        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
-          <image mode='aspectFill' src='{{ item.head_img_url }}' />
-        </view>
-      </view>
-      <button class='btn_style' disabled='disabled'>订单已使用，请重新拼团</button>
-    </view>
-
-    <!-- 已过期 -->
-    <view wx:if="{{pastState}}">
-      <!-- 参团成员 -->
-      <view class='user_info_list'>
-        <view class='userinfo_item' wx:for="{{ usersInfo }}" wx:key="img">
-          <image mode='aspectFill' src='{{ item.head_img_url }}' />
-        </view>
-      </view>
-      <button class='btn_style' disabled='disabled'>订单已过期，请重新拼团</button>
-    </view>
-      <button class='btn-return' bindtap='goHome'>点击返回首页</button>
+    <!-- 返回首页 -->
+    <button class='btn-return' bindtap='goHome'>点击返回首页</button>
   </view>
 </view>
-</block>

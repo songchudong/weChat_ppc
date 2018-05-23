@@ -1,63 +1,49 @@
 <!--pages/goods/pay.wxml-->
-<block wx:if="{{hiddenLoading}}">
-  <view class='loading_conter'>
-    <view class='loading_load'>
-      <view class='loading_box loading_delay_a'></view>
-      <view class='loading_box loading_delay_b'></view>
-      <view class='loading_box loading_delay_c'></view>
-      <view class='loading_box loading_delay_d'></view>
-    </view>
-    <text class='loading_txt'>加载中</text>
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+<view class='order_info'>
+  <view class='box_left'>
+    <image class='box_icon' mode='aspectFill' src='{{picDomain}}'></image>
   </view>
-</block>
-
-<block wx:else>
-  <view class='order_info'>
-    <view class='box_left'>
-      <image class='box_icon' mode='aspectFill' src='{{picDomain+productInfo.ico}}'></image>
-    </view>
-    <view class ="box_right" style='margin-left:15rpx;'>
-        <view class='title'>
-          <view style='color:#353535;font-size:34rpx;font-weight:600;'>{{ productInfo.name }}</view>
-          <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{productInfo.remark1}}</view>
-          <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{productInfo.remark2}}</view>
-          <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="productInfo.limit == 1">{{productInfo.shop_name}}</view>
-          <view wx:else>使用地点不限</view>
-        </view>
-        <view class='state_info' wx:if="productInfo.state == -1">
-          <view class='box_price'>{{'￥'+productInfo.price}}</view>
-          <!-- <view>{{productInfo.discount +'折劵'}}</view>  -->
-          <view class='box_ps'>三人团</view>
-        </view>
-    </view>
+  <view class ="box_right" style='margin-left:15rpx;'>
+      <view class='title'>
+        <view style='color:#353535;font-size:34rpx;font-weight:600;'>{{ productInfo.name }}</view>
+        <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{productInfo.remark1}}</view>
+        <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{productInfo.remark2}}</view>
+        <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="productInfo.limit == 1">仅限{{productInfo.shop_name}}使用</view>
+        <view wx:else>使用地点不限</view>
+      </view>
+      <view class='state_info' wx:if="productInfo.state == -1">
+        <view class='box_price'>{{'￥'+productInfo.price}}</view>
+        <!-- <view>{{productInfo.discount +'折劵'}}</view>  -->
+        <view class='box_ps'>{{productInfo.cluster_count + productInfo.unit+'成团'}}</view>
+      </view>
+  </view>
 </view>
 
-  <view class='list-c'>
-    <view style='border-bottom: 1rpx solid #f6f6f6; padding-bottom:15rpx;'>手机号</view>
-    <view style='font-size:32rpx;'>
-      <view class='add_user'>
-        <input placeholder='请填写手机号' placeholder-style='color:#a0a0a0' type='number' maxlength='11' bindblur='setTelNumber'></input>
-      </view>
+<view class='list-c'>
+  <view style='border-bottom: 1rpx solid #f6f6f6; padding-bottom:15rpx;'>手机号</view>
+  <view style='font-size:32rpx;'>
+    <view class='add_user'>
+      <input placeholder='请填写手机号' placeholder-style='color:#a0a0a0' type='number' maxlength='11' bindblur='setTelNumber'></input>
     </view>
   </view>
+</view>
 
-  <view class='list-c'>
-    <view class='time_view'>
-      <view style="text-align:right">有效期时间 </view>
-      <view style="text-align:right">30 天</view>
-    </view>
+<view class='list-c'>
+  <view class='time_view'>
+    <view style="text-align:right">有效期时间 </view>
+    <view style="text-align:right">30 天</view>
   </view>
+</view>
 
-  <view class='list-c'>
-    <view class='amount_view'>
-      <view>实付金额</view>
-      <view style='color:#ff0036;'>¥ {{productInfo.price}}</view>
-    </view>
-  </view> 
-
-  <view class='suspend_view'>
-    <view bindtap='pay'>微信支付</view>
+<view class='list-c'>
+  <view class='amount_view'>
+    <view>实付金额</view>
+    <view style='color:#ff0036;'>¥ {{productInfo.price}}</view>
   </view>
+</view> 
 
-</block>
+<view class='suspend_view'>
+  <button bindtap='pay' class='btn_getinfo' open-type='getUserInfo'>微信支付</button>
+</view>
 

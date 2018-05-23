@@ -10,8 +10,9 @@
   </view>
 </block>
 <block wx:else>
-  <navigator wx:for="{{productList}}" class='list_block' wx:key="store_id" url='../goods/details?product_id={{item.id}}&&discount_id={{item.id}}'>
-    <view class='list_header'>
+  <navigator wx:for="{{productList}}" class='list_block' wx:key="item.id" url='../goods/details?product_id={{item.id}}&&discount_id={{item.discount_id}}&&activity_id={{item.activity_id}}'>
+    {{item.id}}{{item.discount_id}}{{item.activity_id}}
+    <!-- <view class='list_header'>
       <image src='{{picDomain + item.url}}'></image> 
     </view>
     <view class='list_conter'>
@@ -30,7 +31,7 @@
           <text class='box_index'>{{ item.cluster_count}}{{item.unit}}成团</text> 
         </view>
       </view>
-    </view>
+    </view> -->
   </navigator>
   <view class='list_block tips_block'>
     <text>我有大折扣，也想入驻餐餐拼？</text>

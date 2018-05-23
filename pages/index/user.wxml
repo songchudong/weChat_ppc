@@ -1,7 +1,6 @@
 <!--pages/index/user.wxml-->
-
-
-<view class="head_box"> 
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+<view class="head_box">
   <view class="head_user_info">
     <view class='user_icon'>
       <image class="userinfo-avatar" src='{{ userInfo.avatarUrl }}'></image>
@@ -10,99 +9,110 @@
       <text>{{ userInfo.nickName}}</text>
     </view>
   </view>
-</view> 
+</view>
 <view class='btn-group'>
+  <view bindtap="switchType" id='0' class="btn-list {{checked == 0?'item':''}}">全部</view>
   <view bindtap="switchType" id='2' class="btn-list {{checked == 2?'item':''}}">进行中</view>
   <view bindtap="switchType" id='1' class="btn-list {{checked == 1 ?'item':''}}">待使用</view>
   <view bindtap="switchType" id='4' class="btn-list  {{checked == 4?'item':''}}">已使用</view>
   <view bindtap="switchType" id='3' class="btn-list {{checked == 3?'item':''}}">已过期</view>
-
 </view>
 <view class='order_list_box'>
-  <block wx:if="{{hiddenLoading}}">
-    <view class='loading_conter'>
-      <view class='loading_load'>
-        <view class='loading_box loading_delay_a'></view>
-        <view class='loading_box loading_delay_b'></view>
-        <view class='loading_box loading_delay_c'></view>
-        <view class='loading_box loading_delay_d'></view>
-      </view>
-      <text class='loading_txt'>加载中</text>
+  <navigator class='order_item' wx:for="{{orderlist}}" wx:key="order_id" url='../goods/spell?order_id={{item.id}}'>
+    <view class='box_left'>
+      <image class='box_icon' mode='aspectFill' src='{{picDomain+item.ico}}'></image>
     </view>
-  </block>
-  <block>
-    <navigator class='order_item' wx:for="{{orderlist}}" wx:key="order_id" url='../goods/spell?order_id={{item.id}}'>
-      <view class='box_left'>
-        <image class='box_icon' mode='aspectFill' src='{{picDomain+item.ico}}'></image>
+    <view class="box_right" style='margin-left:15rpx;'>
+      <view class='title'>
+        <view style='color:#353535;font-size:34rpx;font-weight:600;'>{{ item.product_name }}</view>
+        <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{item.remark1}}</view>
+        <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{item.remark2}}</view>
+        <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="item.limit == 1">{{item.shop_name}}</view>
+        <view wx:else>使用地点不限</view>
       </view>
-      <view class ="box_right" style='margin-left:15rpx;'>
-          <view class='title'>
-            <view style='color:#353535;font-size:34rpx;font-weight:600;'>{{ item.product_name }}</view>
-            <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{item.remark1}}</view>
-            <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{item.remark2}}</view>
-            <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="item.limit == 1">{{item.shop_name}}</view>
-            <view wx:else>使用地点不限</view>
-          </view>
-          <view class='state_info' wx:if="{{item.status == -1}}">
+
+      <block wx:if="{{item.type_id == 1}}">
+        <!-- 进行中  拼团-->
+        <block wx:if="{{item.pt_status == 0}}">
+          <view class='state_info'>
             <view>邀请好友</view>
-            <!-- <view>{{item.discount +'折劵'}}</view>  -->
             <view>拼团中</view>
           </view>
-          <view class='state_info' wx:elif="{{item.status == 0}}">
-            <!-- <view>{{item.discount +'折劵'}}</view> -->
+        </block>
+        <block wx:elif="{{item.pt_status == 1}}">
+          <!--拼团时间 已过期 -->
+          <view class='state_info'>
+            <view>拼团失败</view>
+            <view>订单已退款</view>
+          </view>
+        </block>
+        <block wx:elif="{{item.pt_status == 2}}">
+          <!-- 待使用 拼团 -->
+          <view class='state_info' wx:if="{{item.status == 0}}">
             <view>待使用</view>
             <view>拼团成功</view>
           </view>
-          <view class='state_info' wx:elif="{{item.status == 1}}">
-            <!-- <view>{{item.discount +'折劵'}}</view> -->
+          <!-- 已过期 -->
+          <view class="state_info" wx:if="{{item.status == 1}}">
             <view>已过期</view>
-            <view>拼团结束</view> 
           </view>
+          <!-- 已使用  拼团 -->
           <view class='state_info' wx:elif="{{item.status == 2}}">
-            <!-- <view>{{item.discount +'折劵'}}</view> -->
             <view>已使用</view>
-            <view>拼团结束</view> 
+            <view>拼团成功</view>
           </view>
-      </view>
-    </navigator>
-  </block>
+        </block>
+      </block>
+
+      <block wx:elif="{{item.type_id == 2}}">
+        <block wx:if="{{item.pt_status == 0}}">
+          <!-- 进行中  拼团-->
+          <view class='state_info'>
+            <view>邀请好友</view>
+            <view>拼团中</view>
+          </view>
+        </block>
+        <block wx:if="{{item.pt_status == 1}}">
+          <!--拼团时间 已过期 -->
+          <view class='state_info'>
+            <view>拼团失败</view>
+            <view>订单已退款</view> 
+          </view>
+        </block>
+        <block wx:if="{{item.pt_status == 2}}">       
+          <!-- 进行中  抽奖-->
+          <view class='state_info' wx:if="{{item.activity_status == 0}}">
+            <view>等待开奖</view>
+            <view>拼团成功</view>
+          </view>
+          <!--待使用 抽奖  -->
+          <block wx:if="{{item.activity_status == 1}}">
+              <block wx:if="{{item.award == 1}}">
+                  <!-- 待使用 中奖 -->
+                <view class='state_info' wx:if="{{item.status == 0}}">
+                  <view>待使用</view>
+                  <view>已中奖</view> 
+                </view>
+                <!-- 已过期 -->
+                <view class="state_info" wx:elif="{{item.status == 1}}">
+                  <view>已过期</view>
+                </view>
+                <!-- 已使用  拼团 -->
+                <view class='state_info' wx:elif="{{item.status == 2}}">
+                  <view>已使用</view>
+                  <view>已中奖</view>   
+                </view>
+            </block>
+            <block wx:elif="{{item.award == 0}}">
+              <view class="state_info" >
+                <view>已过期</view>
+                <view>未中奖</view>   
+              </view>
+            </block>            
+          </block>
+  
+        </block>
+      </block>
+    </view>
+  </navigator>
 </view>
-
-
-
-
-
-
-  <!-- <view class='list_img'>
-    
-  </view>
-
-  <view class='list_content'>
-    <view class='content_title'>
-      <text></text>
-      <text>{{ item.name }}</text>
-    </view>
-
-    <view class='content_text'>
-      <view> -->
-        
-        <!-- <view style='padding-top:10rpx;'>{{item.remark1}}</view>
-        <view style='padding-top:10rpx;'>{{item.remark2}}</view>
-        <view style='padding-top:10rpx;'>{{item.remark3}}</view> -->
-      <!-- </view>
-
-      <view class='content_text_right'>
-        <view>{{item.state}}</view>
-        <view wx:if="{{ item.state== '未使用' }}">已成团</view>
-        <view wx:elif="{{ item.state== '邀请好友' }}">拼团中</view>
-
-        <view wx:else>{{ item.cluster_count}}人成团</view>
-        <!-- 
-        <view>¥ {{ item.cluster_price }}</view>
-        -->
-      <!-- </view>
-    </view>
-
-
-  </view> -->
-<!-- </navigator> -->

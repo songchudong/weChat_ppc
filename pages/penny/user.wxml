@@ -40,7 +40,7 @@
             <view style='color:#353535;font-size:34rpx;font-weight:600;'>{{ item.product_name }}</view>
             <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{item.remark1}}</view>
             <view style='padding-top:8rpx;color:#888;font-size:24rpx;'>{{item.remark2}}</view>
-            <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="item.limit == 1">{{item.shop_name}}</view>
+            <view style='padding-top:8rpx;color:#888;font-size:24rpx;' wx:if="item.limit == 1">仅限{{item.shop_name}}使用</view>
             <view wx:else>使用地点不限</view>
           </view>
           <view class='state_info' wx:if="{{item.status == -1}}">

@@ -1,5 +1,5 @@
 //app.js
-
+const utils = require('./utils/util.js')
 App({
   // 生命周期_小程序加载初始化
   onLaunch: function () {
@@ -25,18 +25,9 @@ App({
           wx.request({
             url: this.server + "Users/GetWxLogin?code=" + res.code,
             success: function (res) {
+              console.log(res,'是否授权');
               _this.globalData.uid = res.data.data.id;
               wx.setStorageSync('uid',res.data.data.id);
-              _this.getUserInfo(res.data.data.id);
-              if (!res.data.data.nickname || !res.data.data.head_img_url) {
-                _this.getUserInfo(res.data.data.id);
-              }else{
-                _this.globalData.userInfo = {
-                  nickname:res.data.data.nicknam,
-                  head_img_url:res.data.data.head_img_url,
-                };
-                wx.setStorageSync('userInfo', _this.globalData.userInfo);
-              }
             }
           });
         } else {
@@ -48,27 +39,36 @@ App({
   // 获取用户信息(uid用户)
   getUserInfo: function (uid){
     var _this = this;
-    wx.getUserInfo({
-      withCredentials: true,
-      success: function (res){
-        _this.globalData.userInfo = res.userInfo;
-        wx.setStorageSync('userInfo', res.userInfo);
-        wx.request({
-          method: 'POST',
-          url: _this.server + 'Users/SetUserInfo',
-          data: {
-            uid:uid,
-            encryptedData: res.encryptedData,
-            iv: res.iv,
-            rawData: res.rawData,
-            signature: res.signature
+    wx.getSetting({
+      success:function(res){
+        wx.getUserInfo({
+          withCredentials: true,
+          success: function (res) {
+            console.log(res)
+            _this.globalData.userInfo = res.userInfo;
+            wx.setStorageSync('userInfo', res.userInfo);
+            wx.request({
+              method: 'POST',
+              url: _this.server + 'Users/SetUserInfo',
+              data: {
+                uid: uid,
+                encryptedData: res.encryptedData,
+                iv: res.iv,
+                rawData: res.rawData,
+                signature: res.signature
+              },
+              success: function (res) { 
+                console.log(res)
+              }
+            });
           },
-          success: function (res) {}
-        });
-      },
-      fail: function (res) { },
-      complete: function (res) { },
-    })
+          fail: function (res) {
+            console.log(res);
+          },
+          complete: function (res) { },
+        })
+      }
+    });
   },
   // 显示错误模块
   showErrorModal: function (content, title) {
@@ -79,35 +79,67 @@ App({
       showCancel: false
     });
   },
+  /**
+   * 支付请求
+   * 微信支付请求二次封装
+   * @param {string} obj.timeStamp  时间戳
+   * @param {string} obj.nonceStr  随机串
+   * @param {string} obj.package  数据包
+   * @param {string} obj.signType  签名方式
+   * @param {string} obj.paySign 签名
+   * @param {object} fn 成功后的回调
+   * @return null
+   */
+  paymentWx: function (obj,fn){
+    wx.requestPayment({
+      'timeStamp': obj.timeStamp,
+      'nonceStr': obj.nonceStr,
+      'package': obj.package,
+      'signType': obj.signType,
+      'paySign': obj.paySign,
+      'success': function (ress) {fn()}
+    })
+  },
+  request:function(){
 
-
-  // getSetting: function(){
-  //   // 获取用户信息
-  //   wx.getSetting({
-  //     success: res => {
-  //       if (res.authSetting['scope.userInfo']) {
-  //         // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-  //         wx.getUserInfo({
-  //           success: res => {
-  //             // 可以将 res 发送给后台解码出 unionId
-  //             this.globalData.userInfo = res.userInfo
-  //             console.log(res.userInfo)
-  //             // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-  //             // 所以此处加入 callback 以防止这种情况
-  //             if (this.userInfoReadyCallback) {
-  //               this.userInfoReadyCallback(res)
-  //             }
-  //           }
-  //         })
-  //       }
-  //     }
-  //   })
-  // },
-  
+  },
+  post: function (url, data) {
+    var promise = new Promise((resolve, reject) => {
+      //init
+      var that = this;
+      var postData = data;
+      /*
+      //自动添加签名字段到postData，makeSign(obj)是一个自定义的生成签名字符串的函数
+      postData.signature = that.makeSign(postData);
+      */
+      //网络请求
+      wx.request({
+        url: url,
+        data: postData,
+        method: 'POST',
+        header: { 'content-type': 'application/x-www-form-urlencoded' },
+        success: function (res) {
+          console.log(res,'post');
+          //服务器返回数据
+          if (res.data.status == true) {
+            resolve(res.data);
+          } else {
+            //返回错误提示信息
+            reject(res.data.msg);
+          }
+        },
+        error: function (e) {
+          reject('网络出错');
+        }
+      })
+    });
+    return promise;
+  },
   server: "https://pdc.muluo.org/api/",
   cdnImg: "https://pdc.muluo.org/static/",
   globalData: {
     uid: null,
     userInfo: null
-  }
+  },
+  utils
 })

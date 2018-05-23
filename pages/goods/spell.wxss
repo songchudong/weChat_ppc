@@ -17,7 +17,6 @@
 }
 
 .content .third text {
-
   font-size: 38rpx;
   border-radius: 10rpx;
   padding: 8rpx 25rpx;
@@ -37,22 +36,13 @@
   margin: 10rpx 20rpx;
 }
 
-/* .spell_sussces {
-  background-color: #fff;
-  text-align: center;
-  margin-top: 15rpx;
-} */
-
-
-
-
-.order_info .box_icon{
+.order_info .box_icon {
   width: 175rpx;
   height: 175rpx;
   border-radius: 4rpx;
 }
 
-.order_info{
+.order_info {
   display: flex;
   height: 175rpx;
   margin-bottom: 15rpx;
@@ -60,90 +50,113 @@
   padding: 15rpx;
 }
 
-
-.order_info .box_left{
+.order_info .box_left {
   height: 175rpx;
   widows: 175rpx;
-  display: flex; 
-  justify-content:flex-start; 
-  
+  display: flex;
+  justify-content: flex-start;
 }
-.order_info .box_right{
+
+.order_info .box_right {
   display: flex;
 }
-.order_info .state_info{
+
+.order_info .state_info {
   margin-left: 30rpx;
   padding-top: 15rpx;
   text-align: right;
 }
 
-
-.order_info .state_info view:nth-child(1){
+.order_info .state_info view:nth-child(1) {
   font-size: 38rpx;
   color: #ff0036;
   margin-top: 32rpx;
 }
-.order_info .state_info view:nth-child(2){
+
+.order_info .state_info view:nth-child(2) {
   font-size: 25rpx;
   text-align: center;
   color: #888;
   margin-top: 10rpx;
 }
 
-
 /* 拼团模块 */
-.order_group{
+
+.order_group {
   margin-top: 15rpx;
-  background-color:#fff;
-  padding: 25rpx; 
+  background-color: #fff;
+   padding: 25rpx; 
 }
 
-.group_title{
+.group_title {
   margin-bottom: 15rpx;
 }
-.group_title .group_account_title{
+
+.group_title .group_account_title {
   text-align: center;
   font-size: 34rpx;
   margin: 15rpx 0;
 }
-.group_title .group_account_title text{
+
+.group_title .group_account_title text {
   color: #ff0036;
 }
-.group_title .group_account_one,
-.group_title .group_account_two{
+
+.group_title .group_account_one, .group_title .group_account_two {
   text-align: center;
   font-size: 29rpx;
   color: #888;
-  margin: 25rpx 0;
+  margin-bottom: 20rpx;
 }
-.group_title .group_time{
+
+.group_title .group_time {
   text-align: center;
 }
-.group_title .group_time text{
+
+.group_title .group_time text {
   padding: 5rpx 15rpx;
   display: inline-block;
   background-color: #606060;
   color: #fff;
   border-radius: 8rpx;
 }
-.group_control .btn_style{
+
+.group_control .btn_style {
   background-color: #ff0036;
-  color:#fff;
+  color: #fff;
   margin: 20rpx 0;
+  margin-bottom: 20rpx;
 }
-.user_info_list{
+
+.btn_style {
+  background-color: #ff0036;
+  color: #fff;
+}
+
+.user_info_list {
   min-height: 125rpx;
   padding: 25rpx;
   display: flex;
-  justify-content:center;
+  flex-wrap:wrap;
+  justify-content: center;
+
 }
-.user_info_list .userinfo_item{
+
+.user_info_title {
+  padding: 20rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #888;
+}
+
+.user_info_list .userinfo_item {
   height: 114rpx;
   width: 114rpx;
-  margin: 0 25rpx;
   position: relative;
+  margin: 25rpx;
 }
-.user_info_list  .userinfo_item:nth-child(1)  image:after{
+
+.user_info_list  .userinfo_item:nth-child(1)  image:after {
   content: '团长';
   width: 50rpx;
   position: absolute;
@@ -158,45 +171,224 @@
   bottom: -18rpx;
 }
 
-.user_info_list .userinfo_item image{
+.user_info_list .userinfo_item image {
   height: 110rpx;
   width: 110rpx;
   border-radius: 50%;
   border: 2rpx solid #ff0036;
 }
 
-.user_order_content{
+.user_order_content {
   text-align: center;
 }
-.user_order_group{
-  padding-bottom:30rpx;
-  font-size:30rpx;
+
+.user_order_group {
+  font-size: 30rpx;
+  text-align: center;
+  padding: 20rpx 0;
 }
 
-.user_order_group text:nth-child(1){
-  font-size:40rpx; 
+.user_order_group text:nth-child(1) {
+  font-size: 40rpx;
   color: #353535;
   line-height: 65rpx;
-  margin-bottom:15rpx;
+  margin-bottom: 15rpx;
 }
 
-.user_order_group text:nth-child(2),
-.user_order_group text:nth-child(3){
-  font-size:32rpx;
+.user_order_group text:nth-child(2), .user_order_group text:nth-child(3) {
+  font-size: 32rpx;
   line-height: 50rpx;
-  color:red;
-  margin:15rpx 0;
+  color: red;
+  margin: 15rpx 0;
 }
 
-.user_order_group text:nth-child(4){
-  display:block;
+.user_order_group text:nth-child(4) {
+  display: block;
   color: #888;
   margin-top: 15rpx;
 }
-.btn-return{
-  width:90%; 
+
+.btn-return {
+  width: 90%;
   position: fixed;
   left: 50%;
   margin-left: -45%;
   bottom: 30rpx;
+}
+
+
+
+.drawer_screen {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background: #000;
+  opacity: 0.5;
+  overflow: hidden;
+}
+.drawer_base64 icon{
+  position: fixed;
+  top: 50rpx;
+  right: 50rpx;
+  color: #FFF;
+}
+.drawer_base64{
+  width:65%;
+  height: 500rpx;
+  position: fixed;
+  z-index: 9999;
+  top: 50rpx;
+  left: 50%;
+  margin-left: -250rpx;
+}
+
+/*content*/
+.animated {
+  animation-duration: 500ms;
+  animation-fill-mode: both;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translateZ(0);
+  }
+}
+
+.slideInUp {
+  animation-name: slideInUp;
+}
+
+.drawer_box {
+  background: #fff;
+  height: 170rpx;
+  width: 100%;
+  position: fixed;
+  z-index: 1001;
+  left: 50%;
+  bottom: 0;
+  margin-left: -50%;
+  margin-top: -250rpx;
+  padding: 20rpx 0;
+}
+
+.drawer_content {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  /* box-sizing: border-box; */
+}
+
+.drawer_content .drawer_block {
+  display: flex;
+  width: 250rpx;
+  height: 160rpx;
+}
+
+.drawer_block button{
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  margin: 0; 
+  box-sizing: initial; 
+  font-size: normal;
+  text-align: center;
+  text-decoration: none;
+  line-height: normal;
+  border-radius: 0px;
+  color: #888;
+  background-color: #fff; 
+  padding-right: 25rpx;
+  padding-left: 0;
+}
+button::after{
+  border: none;
+}
+.drawer_block {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 0 25rpx;
+}
+.drawer_block:nth-child(1){
+  border-right: 1px solid #ececec;
+  margin-right: 0;
+}
+
+.drawer_block image {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 0 auto;
+}
+
+.drawer_block .drawer_block_icon {
+  width: 110rpx;
+  height: 110rpx;
+  margin: 5rpx auto;
+}
+
+.drawer_block text {
+  font-size: 30rpx;
+  margin-top: 5rpx;
+  color: #888;
+}
+.award_title{
+  text-align: center;
+  font-size: 35rpx;
+  margin-bottom: 15rpx;
+}
+.award_list{
+  padding-bottom: 50rpx;
+}
+.award_head{
+  display: flex;
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  color: #353535;
+  justify-content:space-between;
+  text-align: center;
+  background-color: #fafafa;
+}
+.award_head text{
+  width: 50%;
+  text-align: center;
+}
+.award_item{
+  display: flex;
+  justify-content:space-between;
+  height: 60rpx;
+  line-height: 60rpx;
+  vertical-align: middle;
+  text-align: center;
+  padding: 15rpx;
+}
+.award_item image{
+  width: 45rpx;
+  height: 45rpx;
+  border-radius: 50%;
+}
+.award_item>view:nth-child(1){
+  padding-left: 120rpx;
+  font-size: 30rpx;
+}
+.award_item>view:nth-child(1) image{
+  display: inline-block;
+  position: relative;
+  top: 10rpx;
+  margin-right: 15rpx;
+}
+.award_item>view:nth-child(1) text{
+  vertical-align: top;
+}
+.award_item>view:nth-child(2){
+  padding-right: 80rpx;
+  font-size: 30rpx;
 }

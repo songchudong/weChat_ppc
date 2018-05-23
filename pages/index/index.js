@@ -6,34 +6,25 @@ Page({
   data: {
     isFirst: true,
     picDomain: null,
-    hiddenLoading:true,
+    hiddenLoading:false,
     userInfo: {},
     storeList: [],
-    tipsView:false,
-    gdImgUrls: [
-      { url: app.cdnImg + '/static/img/0.jpg', id: '1' },
-      { url: app.cdnImg + '/static/img/1.jpg', id: '1' },
-      { url: app.cdnImg + '/static/img/2.jpg', id: '1' },
-      { url: app.cdnImg + '/static/img/3.jpg', id: '1' }]
+    tipsView:false
   },
-
   onLoad: function () {
     this.setData({
       picDomain: app.cdnImg
     })
     this.getProductList()
   },
-
-  goAd: function (e) {
+  goAd:function (e) {
     wx.navigateTo({
       url: '../goods/details',
       success: function (res) { },
       fail: function (res) { },
-      complete: function (res) { },
+      complete: function (res) { }
     })
   },
-
-
   getProductList: function () {
     var _this = this
     wx.request({
@@ -51,7 +42,7 @@ Page({
             app.removeLoginCache()
             _this.setData({
               isFirst: false,
-              hiddenLoading:false
+              hiddenLoading: true
             });
           }
           setTimeout(function () { _this.getStoreList() }, 500)
@@ -59,7 +50,7 @@ Page({
         else {
           _this.setData({
             productList: res.data.data,
-            hiddenLoading:false
+            hiddenLoading: true
           })
         }
       },
@@ -69,11 +60,6 @@ Page({
       },
     })
   },
-
-  onShareAppMessage: function () {
-
-  },
-
   onPullDownRefresh: function () {
     wx.showNavigationBarLoading() //在标题栏中显示加载
     this.getProductList()

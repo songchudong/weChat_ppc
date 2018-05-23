@@ -26,16 +26,11 @@
       },
       {
         "pagePath": "pages/index/user",
-        "text": "一分拼",
-        "iconPath": "img/logo/spell.png",
-        "selectedIconPath": "img/logo/spell@active.png"
-      },
-      {
-        "pagePath": "pages/index/user",
         "text": "我的",
         "iconPath": "img/logo/me.png",
         "selectedIconPath": "img/logo/me@active.png"
       }
     ]
-  }
+  },
+  "debug": true
 }

@@ -217,3 +217,12 @@
   75% {opacity:0}
   100% {opacity:.5;background:#000;}
 }
+
+.btn_getinfo{
+  background-color: #20a53a;
+  color: #fff;
+  position: initial;
+  border: none;
+  height: 110rpx;
+  line-height: 110rpx;
+}

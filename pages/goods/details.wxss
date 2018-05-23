@@ -1,6 +1,5 @@
 /* pages/goods/details.wxss */
 
-
 .goods_connect {
   font-size: 28rpx;
   color: #a0a0a0;
@@ -25,17 +24,19 @@
 
 /* 产品描述 */
 
-.product_box{
+.product_box {
   font-size: 35rpx;
   padding: 20rpx;
   background-color: #fff;
 }
-.product_box .product_title{
+
+.product_box .product_title {
   display: flex;
-  justify-content:space-between;
-  margin-bottom: 15rpx; 
+  justify-content: space-between;
+  margin-bottom: 15rpx;
 }
-.product_box .box_discount{
+
+.product_box .box_discount {
   font-size: 30rpx;
   margin: auto 10rpx auto 0;
   color: #fff;
@@ -43,40 +44,46 @@
   border-radius: 10rpx;
   background-color: #ff0036;
 }
-.product_box .box_left{
+
+.product_box .box_left {
   display: flex;
 }
-.product_box .box_right{
+
+.product_box .box_right {
   display: flex;
 }
-.product_connect{
+
+.product_connect {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   font-size: 28rpx;
   color: #a0a0a0;
 }
-.product_connect .box_left{
+
+.product_connect .box_left {
   display: flex;
   flex-direction: column;
 }
-.product_connect .box_left .box_ps{
+
+.product_connect .box_left .box_ps {
   height: 50rpx;
   line-height: 50rpx;
 }
-.product_box .box_gross{
+
+.product_box .box_gross {
   text-align: right;
   padding-right: 5rpx;
 }
 
-.product_box .box_name{
-  color:#353535;
-  font-size:36rpx;
-  vertical-align:middle;
+.product_box .box_name {
+  color: #353535;
+  font-size: 36rpx;
+  vertical-align: middle;
 }
 
-.product_box .box_share{
+.product_box .box_share {
   font-size: 28rpx;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   line-height: 45rpx;
@@ -85,18 +92,17 @@
   padding-left: 5rpx;
 }
 
-.product_box .box_share image{
+.product_box .box_share image {
   height: 30rpx;
   width: 30rpx;
   margin-right: 5rpx;
 }
 
-.product_box .box_price{
+.product_box .box_price {
   font-size: 40rpx;
   margin-bottom: 5rpx;
   color: #ff0036;
 }
-
 
 /* 底部悬浮框 */
 
@@ -145,174 +151,128 @@
   width: 100%;
   height: 100%;
   position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
   z-index: 1000;
   background: #000;
   opacity: 0.5;
   overflow: hidden;
 }
+.drawer_base64 icon{
+  position: fixed;
+  top: 50rpx;
+  right: 50rpx;
+  color: #FFF;
+}
+.drawer_base64{
+  width:65%;
+  height: 500rpx;
+  position: fixed;
+  z-index: 9999;
+  top: 50rpx;
+  left: 50%;
+  margin-left: -250rpx;
+}
 
 /*content*/
+.animated {
+  animation-duration: 500ms;
+  animation-fill-mode: both;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translateZ(0);
+  }
+}
+
+.slideInUp {
+  animation-name: slideInUp;
+}
 
 .drawer_box {
   background: #fff;
-  border-radius: 5px;
-  height: 400rpx;
-  width: 90%;
+  height: 170rpx;
+  width: 100%;
   position: fixed;
   z-index: 1001;
   left: 50%;
-  top: 50%;
-  margin-left: -45%; 
+  bottom: 0;
+  margin-left: -50%;
   margin-top: -250rpx;
-}
-.animated {
-    animation-duration: 300ms;
-    animation-fill-mode: both;
-}
-.zoomIn {
-    animation-name: zoomIn;
-    transition: all 300ms;
-    box-shadow: 1px 1px 50px rgba(0,0,0,.3);
-}
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale3d(.3, .3, .3);
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-
-
-.drawer_title{
-    height: 125rpx;
-    line-height: 125rpx;
-    border-bottom: 1px solid #ececec;
-    text-align: center;
-    color: #20A53A;
-    font-weight: 500;
-    font-size: 38rpx;
+  padding: 20rpx 0;
 }
 
 .drawer_content {
   display: flex;
   justify-content: center;
   text-align: center;
-  padding: 0 15%;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
-.drawer_content .drawer_block{
+
+.drawer_content .drawer_block {
   display: flex;
   width: 250rpx;
   height: 160rpx;
 }
-.drawer_block:nth-child(1){
-  position: initial;
-  margin: 0;
-  box-sizing: initial;
-  font-size:normal;
-  text-align:center;
-  text-decoration:none;
-  line-height: normal;
-  border-radius:0px;
-  overflow:hidden;
-  color:#888;
-  background-color:#fff;
-}
 
-.drawer_block{
+.drawer_block button{
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  margin: 0; 
+  box-sizing: initial; 
+  font-size: normal;
+  text-align: center;
+  text-decoration: none;
+  line-height: normal;
+  border-radius: 0px;
+  color: #888;
+  background-color: #fff; 
+  padding-right: 25rpx;
+  padding-left: 0;
+}
+button::after{
+  border: none;
+}
+.drawer_block {
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding: 55rpx 0;
+  margin: 0 25rpx;
+}
+.drawer_block:nth-child(1){
+  border-right: 1px solid #ececec;
+  margin-right: 0;
 }
 
-.drawer_block image{
+.drawer_block image {
   width: 120rpx;
   height: 120rpx;
   margin: 0 auto;
 }
 
-.drawer_block .drawer_block_icon{
+.drawer_block .drawer_block_icon {
   width: 110rpx;
   height: 110rpx;
   margin: 5rpx auto;
 }
 
- .drawer_block text{
-   font-size: 35rpx; 
-   margin-top: 15rpx; 
-} 
-
-/* .drawer_img {
-  width: 80%;
-  margin-left: 10%;
-  overflow: hidden;
-  position: fixed;
-  bottom: 25%;
-  z-index: 1001;
-  border-radius: 5px;
-} */
+.drawer_block text {
+  font-size: 30rpx;
+  margin-top: 5rpx;
+  color: #888;
+}
 
 .swiper image {
   width: 100%;
 }
 
 
-
-.loading_conter{
-  position: fixed;
-  top: 50%;
-  left:50%;
-  height: 110rpx;
-  widows: 110rpx;
-  margin-top: -110rpx;
-  margin-left: -55rpx;
-}
-
-.loading_load{
-  width: 110rpx;
-  height: 110rpx;
-}
-
-.loading_box{
-	display:inline-block;
-	width:50rpx;
-	height:50rpx;
-  margin-right: 10rpx;
-	background:#ff0036;
-	animation:k-loading 2.8s infinite;
-	opacity:0;
-}
-
-
-.loading_box:nth-child(even){
-  margin-right: 0;
-}
-
-.loading_txt{
-  width: 110rpx;
-  font-size: 28rpx;
-  margin-top: 30rpx;
-  text-align: center;
-  display: inline-block;
-  color: #888;
-}
-
-.loading_delay_a{animation-delay: 0s;}
-.loading_delay_b{animation-delay: .7s;}
-.loading_delay_c{animation-delay: 2.1s;}
-.loading_delay_d{animation-delay: 1.4s;}
-
-
-@keyframes k-loading {
-	0% {opacity:.5;background:#000}
-  30% {opacity:.5;background:#666;}
-  60% {opacity:0}
-  75% {opacity:0}
-  100% {opacity:.5;background:#000;}
-}
+.banner{ width: 100%; height: auto; display: block;}  
+.slide-image{ width: 100%; display: block;} 

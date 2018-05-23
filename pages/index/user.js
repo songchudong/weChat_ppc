@@ -9,13 +9,12 @@ Page({
     userInfo: {},
     orderlist: [],
     picDomain: null,
-    checked:2,
-    hiddenLoading:true,
+    checked:0,
+    hiddenLoading:false,
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
+  // 生命周期函数--监听页面加载
   onLoad: function (options) {
+    console.log(app.globalData.userInfo);
     this.setData({
       userInfo: app.globalData.userInfo,
       picDomain: app.cdnImg
@@ -38,7 +37,7 @@ Page({
         if (res.data.data) {
           _this.setData({
             orderlist: res.data.data,
-            hiddenLoading: false
+            hiddenLoading: true
           })
         }
       },
@@ -54,7 +53,7 @@ Page({
   switchType:function(e){
     this.setData({
       checked: parseInt(e.target.id),
-      hiddenLoading:true
+      hiddenLoading:false
     });
     this.getUserOrderList(parseInt(e.target.id));
 

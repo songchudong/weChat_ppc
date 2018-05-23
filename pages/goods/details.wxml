@@ -1,42 +1,32 @@
-<!--pages/goods/details.wxml-->
-  <block wx:if="{{hiddenLoading}}">
-    <view class='loading_conter'>
-      <view class='loading_load'>
-        <view class='loading_box loading_delay_a'></view>
-        <view class='loading_box loading_delay_b'></view>
-        <view class='loading_box loading_delay_c'></view>
-        <view class='loading_box loading_delay_d'></view>
-      </view>
-      <text class='loading_txt'>加载中</text>
-    </view>
-  </block>
-  <block wx:else>
+ <!--pages/goods/details.wxml-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
   <!--mask 分享弹框 -->
-
-  <view class="drawer_screen" bindtap="shareFun" data-state="close" wx:if="{{showModalStatus}}"></view> 
-  <view animation="{{animationData}}" class="drawer_box animated zoomIn" wx:if="{{showModalStatus}}"> 
-    <view class='drawer_title'>分享到</view>
-    <view class='drawer_content'>
-      <button class='drawer_block ' open-type="share" type="primary" hover-class="other-button-hover">
+  <view class="drawer_screen" wx:if="{{showModalStatus}}"> 
+  </view>
+  <view class='drawer_base64' wx:if="{{showModalStatus}}">
+    <icon type="cancel" size='25' color='#fff' bind:tap='shareFun' data-state="close"></icon>
+    <image style='width:100%' src='{{userImage}}' mode='widthFix'></image>
+  </view>
+  <view class="drawer_box animated slideInUp" wx:if="{{showModalStatus}}"> 
+     <view class='drawer_content'>
+      <view class='drawer_block'>
+        <button open-type='share'>
           <image src='/img/icon/wechat.png' mode="aspectFit"/>
-          <text>微信好友</text>
-      </button>
-      <!-- <view class='drawer_block' bind:tap=''>
+          <text>发送给朋友</text>
+        </button>
+      </view>
+      <view class='drawer_block' bind:tap='saveImg'>
         <image src='/img/icon/friend.png' class='drawer_block_icon' mode="aspectFit"/>
-        <text>朋友圈</text>
-      </view>  -->
-    </view>
+        <text>生成分享图片</text>
+      </view>   
+    </view> 
   </view>
 
-
-
-
   <!-- swiper轮播图 -->
-
-  <swiper indicator-dots="true" class='swiper' indicator-active-color="#fff" style='height:{{viewHeight}}rpx;' autoplay="true" interval="3000" duration="500" >
+  <swiper indicator-dots="true" class='banner' indicator-active-color="#fff" style='height:{{viewHeight}}px;' autoplay="true" interval="3000" duration="500" >
     <block wx:for="{{productInfo.imgs}}" wx:key="*this">
       <swiper-item>
-        <image src="{{picDomain + item.url}}" bindload="imageLoad"/>
+        <image class='slide-image' src="{{picDomain + item.url}}" mode='widthFix' bindload="imageLoad"/>
       </swiper-item>
     </block>
   </swiper>
@@ -47,13 +37,20 @@
   <view class='product_box'>
     <view class='product_title'>
       <view class='box_left'>
-        <view class='box_discount'>{{productInfo.discount}}折</view>
+        <view class='box_discount'>
+          <block wx:if="item.type_id == 2">
+            {{productInfo.title}}
+          </block>
+          <block wx:else>
+            {{productInfo.discount}}折
+          </block>
+        </view>
         <view class='box_name'>{{productInfo.name}}</view>
       </view>
       <view class='box_right'>
-          <view class='box_share' bindtap="shareFun" data-state="open">
-            <image src='/img/icon/share.png' mode='aspectFit'/>分享
-          </view>
+          <botton class='box_share' bindtap="shareFun" data-state="open">
+            <image src='/img/icon/share.png' mode='aspectFit' bindtap="shareFun" data-state="open"></image>分享
+          </botton>
       </view>
     </view>
     <view class='product_connect'>
@@ -63,40 +60,32 @@
       </view>
       <view class='box_rigth'>
         <view class='box_price'>{{'¥'+ productInfo.price}}</view>
-        <view class='box_gross'>{{productInfo.cluster_count +'人成团'}}</view>
+        <view class='box_gross'>{{productInfo.cluster_count + productInfo.unit +'成团'}}</view>
       </view>
     </view>
   </view>
 
-
-
-  <!-- 文字说明 -->
-
-
+  <!-- 规则信息 -->
   <view class='content_view'>
-    <!-- 规则信息 -->
-    <rich-text nodes="{{productInfo.setting.rules}}"></rich-text>
+    <rich-text nodes="{{productInfo.setting[0]}}"></rich-text>
   </view>
+  <!-- 成团奖励 -->
   <view class='content_view'>
-    <!-- 成团奖励 -->
-    <rich-text nodes="{{productInfo.setting.reward}}"></rich-text>
+    <rich-text nodes="{{productInfo.setting[1]}}"></rich-text>
   </view>
-
+  <!-- 开团步骤 -->
   <view class='content_view'>
-    <!-- 开团步骤 -->
-    <rich-text nodes="{{productInfo.setting.steps}}"></rich-text>
+    <rich-text nodes="{{productInfo.setting[2]}}"></rich-text>
   </view>
-
+  <!-- 店铺信息 -->
   <view class='content_view'>
-    <!-- 店铺信息 -->
     <rich-text nodes="{{productInfo.shop_data}}"></rich-text>
   </view>
   <view style='padding-bottom:200rpx;'></view>
 
   <view class='suspend_view'>
     <navigator url='/pages/index/index' open-type="switchTab">首页</navigator>
-    <navigator url='pay?product_id={{ productInfo.id }}&discount_id={{ productInfo.discount_id }}'>一键开团</navigator>
+    <navigator url='pay?product_id={{ productInfo.id }}&discount_id={{ productInfo.discount_id }}&&activity_id={{productInfo.activity_id}}'>一键开团</navigator>
   </view>
-</block>
 
 

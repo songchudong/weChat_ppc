@@ -1,48 +1,38 @@
-<block wx:if="{{hiddenLoading}}">
-  <view class='loading_conter'>
-    <view class='loading_load'>
-      <view class='loading_box loading_delay_a'></view>
-      <view class='loading_box loading_delay_b'></view>
-      <view class='loading_box loading_delay_c'></view>
-      <view class='loading_box loading_delay_d'></view>
-    </view>
-    <text class='loading_txt'>加载中</text>
+
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+
+<navigator wx:for="{{productList}}" class='list_block' wx:key="store_id" url='../goods/details?product_id={{item.id}}&&discount_id={{item.discount_id}}'>
+  <view class='list_header'>
+    <image src='{{picDomain + item.url}}'></image> 
   </view>
-</block>
-<block wx:else>
-  <navigator wx:for="{{productList}}" class='list_block' wx:key="store_id" url='../goods/details?product_id={{item.id}}&&discount_id={{item.id}}'>
-    <view class='list_header'>
-      <image src='{{picDomain + item.url}}'></image> 
-    </view>
-    <view class='list_conter'>
-      <view class="position_box">
-        <view class='content_box_left'>
-          <view class='content_title'>
-            <text class='box_discount'>{{item.title}}</text>
-            <text class='box_title'>{{ item.name }}</text> 
-          </view>
-          <view class='conter_msg'>
-            <view style='padding-top:10rpx;'>{{item.remark1}}</view>  
-          </view>
+  <view class='list_conter'>
+    <view class="position_box">
+      <view class='content_box_left'>
+        <view class='content_title'>
+          <text class='box_discount'>{{item.title}}</text>
+          <text class='box_title'>{{ item.name }}</text> 
         </view>
-        <view class='content_box_right'>
-          <text class='box_price'>¥ {{ item.price }}</text> 
-          <text class='box_index'>{{ item.cluster_count}}{{item.unit}}成团</text> 
+        <view class='conter_msg'>
+          <view style='padding-top:10rpx;'>{{item.remark1}}</view>  
         </view>
       </view>
+      <view class='content_box_right'>
+        <text class='box_price'>¥ {{ item.price }}</text> 
+        <text class='box_index'>{{ item.cluster_count}}{{item.unit}}成团</text> 
+      </view>
     </view>
-  </navigator>
-  <view class='list_block tips_block'>
-    <text>我有大折扣，也想入驻餐餐拼？</text>
-    <button bind:tap='opentips' data-type="open">立即入驻</button>
   </view>
-  <view class='codeView' wx:if="{{tipsView}}">
-    <view class='tips_title'>入驻咨询</view>
-    <view class='tips_code'>
-      <image mode='aspectFit' src='/img/icon/qrCode.jpg' />
-      <text>扫描二维码或添加微信号'dgfanren'</text>
-    </view>
-    <view class='tips_close' bind:tap='opentips' data-type="close"><icon type="clear" size="28" color="rgb(255, 2, 54)"/></view>
+</navigator>
+<view class='list_block tips_block'>
+  <text>我有大折扣，也想入驻餐餐拼？</text>
+  <button bind:tap='opentips' data-type="open">立即入驻</button>
+</view>
+<view class='codeView' wx:if="{{tipsView}}">
+  <view class='tips_title'>入驻咨询</view>
+  <view class='tips_code'>
+    <image mode='aspectFit' src='/img/icon/qrCode.jpg' />
+    <text>扫描二维码或添加微信号'dgfanren'</text>
   </view>
-  <view class='codeMask' bind:tap='opentips' data-type="close" wx:if="{{tipsView}}"></view>
-</block>
+  <view class='tips_close' bind:tap='opentips' data-type="close"><icon type="clear" size="28" color="rgb(255, 2, 54)"/></view>
+</view>
+<view class='codeMask' bind:tap='opentips' data-type="close" wx:if="{{tipsView}}"></view>

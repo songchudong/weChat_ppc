@@ -1,10 +1,5 @@
 /* pages/user.wxss */
 
-/* page {
-  background-color: #f7efe5;
-} */
-
-
 /* 用户头部信息 */
 
 .head_box{
@@ -63,7 +58,7 @@
   display: flex;
 }
 .order_item .state_info{
-  margin-left: 30rpx;
+  margin-left: 40rpx;
   padding-top: 15rpx;
 }
 
@@ -111,60 +106,4 @@
   background-color: #fff;
   padding: 3%;
   margin-bottom: 40rpx;
-}
-
-
-/* loading动画 */
-
-.loading_conter{
-  position: fixed;
-  top: 50%;
-  left:50%;
-  height: 110rpx;
-  widows: 110rpx;
-  margin-top: -110rpx;
-  margin-left: -55rpx;
-}
-
-.loading_load{
-  width: 110rpx;
-  height: 110rpx;
-}
-
-.loading_box{
-	display:inline-block;
-	width:50rpx;
-	height:50rpx;
-  margin-right: 10rpx;
-	background:#ff0036;
-	animation:k-loading 800ms infinite;
-	opacity:0;
-}
-
-
-.loading_box:nth-child(even){
-  margin-right: 0;
-}
-
-.loading_txt{
-  width: 110rpx;
-  font-size: 28rpx;
-  margin-top: 30rpx;
-  text-align: center;
-  display: inline-block;
-  color: #888;
-}
-
-.loading_delay_a{animation-delay: 0s;}
-.loading_delay_b{animation-delay: .4s;}
-.loading_delay_c{animation-delay: 1.2s;}
-.loading_delay_d{animation-delay: .8s;}
-
-
-@keyframes k-loading {
-	0% {opacity:.5;background:#000}
-  30% {opacity:.5;background:#666;}
-  60% {opacity:0}
-  75% {opacity:0}
-  100% {opacity:.5;background:#000;}
 }
