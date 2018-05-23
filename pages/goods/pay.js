@@ -60,7 +60,6 @@ Page({
       }
     })
   },
-
   // 设置电话号码
   setTelNumber: function (e) {
     var _this = this
@@ -75,13 +74,13 @@ Page({
         success: function (res) {
           _this.setData({
             telNumber: e.detail.value
-          })
+          });
           app.globalData.userInfo.telNumber = e.detail.value;
           wx.setStorageSync('userInfo', app.globalData.userInfo);
         }
       })
     }else {
-      app.showErrorModal('请输入正确的手机号码', '手机号码有误')
+      app.showErrorModal('请输入正确的手机号码','手机号码有误')
       this.setData({
         telNumber: this.data.telNumber,
       });
@@ -123,7 +122,8 @@ Page({
   },
   // 个人购买
   pay: function () {
-      if (this.data.telNumber) {
+    console.log(this.data.telNumber);
+    if (this.data.telNumber != '' && this.data.telNumber.length == 11) {
         if (this.data.order_id == null) {
           var _this = this
           wx.request({
@@ -139,9 +139,11 @@ Page({
               _this.setData({
                 order_id: res.data.data.order_id
               });
-              // console.log(res);
+              console.log(res);
               if (res.statusCode == '200') {
-                
+                if(!res.data.data.status){
+                  app.showErrorModal(res.data.data.msg, '支付失败');
+                }
                 wx.requestPayment({
                   'timeStamp': res.data.data.timeStamp + '',
                   'nonceStr': res.data.data.nonceStr,
@@ -165,13 +167,12 @@ Page({
           this.getSpell(this.data.order_id);
         }
       }else {
-        app.showErrorModal('请完整填写手机号码');
+        app.showErrorModal('请完整填写手机号码','手机号码格式错误');
       }
   },
 
   // 参团购买
   getSpell: function (order_id) {
-    console.log(order_id);
     var _this = this;
     wx.request({
       url: app.server + '/Order/AddUserOrder',
@@ -181,6 +182,7 @@ Page({
         userid: app.globalData.uid
       },
       success: function (res) {
+        console.log(res);
         if (res.statusCode == '200') {
           wx.requestPayment({
             'timeStamp': res.data.data.timeStamp + '',

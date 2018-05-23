@@ -10,7 +10,7 @@
     "backgroundColor": "#FF0036",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#FF0036",
-    "navigationBarTitleText": "拼点餐",
+    "navigationBarTitleText": "餐餐拼",
     "navigationBarTextStyle": "light"
   },
   "tabBar": {
@@ -23,6 +23,12 @@
         "text": "首页",
         "iconPath": "img/logo/home.png",
         "selectedIconPath": "img/logo/home@active.png"
+      },
+      {
+        "pagePath": "pages/index/user",
+        "text": "一分拼",
+        "iconPath": "img/logo/spell.png",
+        "selectedIconPath": "img/logo/spell@active.png"
       },
       {
         "pagePath": "pages/index/user",

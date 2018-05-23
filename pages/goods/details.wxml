@@ -19,12 +19,12 @@
     <view class='drawer_content'>
       <button class='drawer_block ' open-type="share" type="primary" hover-class="other-button-hover">
           <image src='/img/icon/wechat.png' mode="aspectFit"/>
-          <text>微信</text>
+          <text>微信好友</text>
       </button>
-      <view class='drawer_block' bind:tap=''>
+      <!-- <view class='drawer_block' bind:tap=''>
         <image src='/img/icon/friend.png' class='drawer_block_icon' mode="aspectFit"/>
         <text>朋友圈</text>
-      </view> 
+      </view>  -->
     </view>
   </view>
 
@@ -52,7 +52,7 @@
       </view>
       <view class='box_right'>
           <view class='box_share' bindtap="shareFun" data-state="open">
-            <image src='/img/icon/share.png' mode='aspectFit'/> 分享
+            <image src='/img/icon/share.png' mode='aspectFit'/>分享
           </view>
       </view>
     </view>

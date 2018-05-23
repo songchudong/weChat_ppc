@@ -99,7 +99,7 @@ Page({
       //     _this.setData({ imgUrl: app.cdnImg + '/' + res.data.data })
       //   }
       // })
-      this.setData({
+    this.setData({
         showModalStatus: true
       });
     }else {
@@ -127,4 +127,5 @@ Page({
       }
     })  
   }
+
 })

@@ -103,8 +103,8 @@
 }
 .group_title .group_account_title{
   text-align: center;
-  font-size: 32rpx;
-  margin-bottom: 15rpx;
+  font-size: 34rpx;
+  margin: 15rpx 0;
 }
 .group_title .group_account_title text{
   color: #ff0036;
@@ -138,17 +138,61 @@
   justify-content:center;
 }
 .user_info_list .userinfo_item{
-  height: 120rpx;
-  width: 120rpx;
+  height: 114rpx;
+  width: 114rpx;
   margin: 0 25rpx;
+  position: relative;
 }
+.user_info_list  .userinfo_item:nth-child(1)  image:after{
+  content: '团长';
+  width: 50rpx;
+  position: absolute;
+  font-size: 25rpx;
+  background: #ff0036;
+  color: #fff;
+  display: inline-block;
+  padding: 4rpx 8rpx;
+  border-radius: 8rpx;
+  left: 50%;
+  margin-left: -33rpx;
+  bottom: -18rpx;
+}
+
 .user_info_list .userinfo_item image{
-  height: 120rpx;
-  width: 120rpx;
+  height: 110rpx;
+  width: 110rpx;
   border-radius: 50%;
-
+  border: 2rpx solid #ff0036;
 }
 
+.user_order_content{
+  text-align: center;
+}
+.user_order_group{
+  padding-bottom:30rpx;
+  font-size:30rpx;
+}
+
+.user_order_group text:nth-child(1){
+  font-size:40rpx; 
+  color: #353535;
+  line-height: 65rpx;
+  margin-bottom:15rpx;
+}
+
+.user_order_group text:nth-child(2),
+.user_order_group text:nth-child(3){
+  font-size:32rpx;
+  line-height: 50rpx;
+  color:red;
+  margin:15rpx 0;
+}
+
+.user_order_group text:nth-child(4){
+  display:block;
+  color: #888;
+  margin-top: 15rpx;
+}
 .btn-return{
   width:90%; 
   position: fixed;

@@ -36,7 +36,7 @@
     <view style='border-bottom: 1rpx solid #f6f6f6; padding-bottom:15rpx;'>手机号</view>
     <view style='font-size:32rpx;'>
       <view class='add_user'>
-        <input placeholder='请填写手机号' placeholder-style='color:#a0a0a0' type='number' maxlength='11' bindblur='setTelNumber' value='{{telNumber}}'></input>
+        <input placeholder='请填写手机号' placeholder-style='color:#a0a0a0' type='number' maxlength='11' bindblur='setTelNumber'></input>
       </view>
     </view>
   </view>

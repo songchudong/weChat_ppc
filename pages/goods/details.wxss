@@ -75,14 +75,14 @@
 }
 
 .product_box .box_share{
-  font-size: 30rpx;
+  font-size: 28rpx;
   display:flex;
   align-items: center;
   justify-content: center;
   line-height: 45rpx;
   height: 45rpx;
   color: #888;
-  padding-right: 5rpx;
+  padding-left: 5rpx;
 }
 
 .product_box .box_share image{
@@ -198,11 +198,9 @@
     font-size: 38rpx;
 }
 
-
-
 .drawer_content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
   padding: 0 15%;
   box-sizing: border-box;

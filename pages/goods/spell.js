@@ -15,10 +15,15 @@ Page({
     isRemoveLoginCache: true,
     remaiTime: null,
     SpellInfo:null,
-    user_state: true,
+    user_state: false,
     options:null,
     hiddenLoading:true,
-    telNumber:app.globalData.userInfo.telNumber
+    telNumber:app.globalData.userInfo.telNumber,
+    starttime:null,
+    endtime:null,
+    pastState:false,
+    userUseState:false,
+    orderState:false,
   },
 
   /**
@@ -48,9 +53,6 @@ Page({
         minute: minute < 9 ? ('0' + minute):minute,
         seconds: seconds
       });
-      if (remaiTime < 0){
-        _this.getUserOrderInfo(_this.data.order_id);
-      }
     }, 100);
   },
   // 获取用户订单详情
@@ -61,15 +63,73 @@ Page({
       data: { order_id: parseInt(order_id) },
       method: 'POST',
       success: function (res) {
+        console.log(res.data.data.detail[0].id, app.globalData.uid)
+        for (var i = 0; i<res.data.data.detail.length;i++){
+          if (res.data.data.detail[i].id == app.globalData.uid) {
+            _this.setData({
+              user_state: true
+            });
+            break;
+          } else {
+            _this.setData({
+              user_state: false
+            });
+          }
+          console.log(res.data.data.detail[i].id == app.globalData.uid)
+        }
         if (res.statusCode == 200){
-          if (res.data.data.detail.length >1){
-            for (var i = 1; i < res.data.data.detail; i++) {
-              if (i.id == app.globalData.uid) {
+          function getLocalTime(time) {
+            time = time.toString();
+            if (time.length > 10) time = time.substring(0, 10)
+            return new Date(parseInt(time) * 1000).format("yyyy/MM/dd hh:mm:ss");
+          }
+
+          //时间格式
+          Date.prototype.format = function (format) {
+            var o = {
+              "M+": this.getMonth() + 1, //month
+              "d+": this.getDate(), //day
+              "h+": this.getHours(), //hour
+              "m+": this.getMinutes(), //minute
+              "s+": this.getSeconds(), //second
+              "q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+              "S": this.getMilliseconds() //millisecond
+            }
+            if (/(y+)/.test(format)) format = format.replace(RegExp.$1,
+              (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+              if (new RegExp("(" + k + ")").test(format))
+                format = format.replace(RegExp.$1,
+                  RegExp.$1.length == 1 ? o[k] :
+                    ("00" + o[k]).substr(("" + o[k]).length));
+            return format;
+          }
+          if (res.data.data.detail.length > 0){
+            for (var i = 0; i < res.data.data.detail.length; i++) {
+              if (res.data.data.detail[i].id == app.globalData.uid){
                 _this.setData({
-                  user_state: false
+                  telNumber: res.data.data.detail[i].telNumber,
+                  userUseState: res.data.data.detail[i].status === 2 ? true : false,
+                  pastState: res.data.data.detail[i].status === 1 ? true : false,
+                  orderState: res.data.data.detail[i].status === -1 || res.data.data.detail[i].status === 0? true : false,
                 });
+                if (_this.data.userUseState || _this.data.pastState) {
+                  _this.setData({
+                    orderState: false
+                  });
+                }
+              }else{
+                _this.setData({
+                  orderState: res.data.data.detail[0].status === -1 || res.data.data.detail[i].status === 0? true : false
+                });
+                if (_this.data.userUseState || _this.data.pastState) {
+                  _this.setData({
+                    orderState: false
+                  });
+                }
               }
             }
+            // console.log(_this.data.userUseState, _this.data.pastState);
           }
           _this.setData({
             hiddenLoading:false,
@@ -87,11 +147,16 @@ Page({
               pt_endtime: res.data.data.pt_endtime,
               time:res.data.data.time,
               orderUser: res.data.data.user_id,
-              loginUser: app.globalData.uid
+              loginUser: app.globalData.uid,
+              endtime: res.data.data.endtime
             },
-            usersInfo: res.data.data.detail
+            usersInfo: res.data.data.detail,
+            starttime:getLocalTime(res.data.data.pt_endtime),
+            endtime: getLocalTime(res.data.data.endtime)
           });
-          _this.calculRemaiTime(res.data.data.pt_endtime,res.data.data.time);
+          if (res.data.data.pt_endtime > res.data.data.time){
+            _this.calculRemaiTime(res.data.data.pt_endtime, res.data.data.time);
+          }
         }else{
           app.removeLoginCache();
         }
@@ -99,7 +164,6 @@ Page({
     })
   },
   // 参团
-
   gopay: function () {
     var url = 'pay?order_id=' + this.data.orderInfo.id;
     wx.navigateTo({
@@ -109,7 +173,6 @@ Page({
       complete: function (res) { },
     })
   },
-
   goHome: function () {
     wx.switchTab({
       url: '/pages/index/index',
